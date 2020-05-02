@@ -2,15 +2,35 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GameStateMgr : MonoBehaviour {
+/*
+ * 大状态机 管理游戏所处阶段
+ * @TODO GAMELOAD LOBBY LEVELLOAD BATTLE
+ */
 
-	// Use this for initialization
-	void Start () {
+public enum GameStateID{
+	NONE,
+	GAMELOAD,
+	LOBBY,
+	LEVELLOAD,
+	BATTLE,
+	COUNT
+}
+
+public class GameStateMgr{
+
+	private GameStateBase[] _states;
+	private GameStateBase _currentState;
+
+
+	public GameStateMgr(GameBattle battle){
 		
 	}
-	
-	// Update is called once per frame
-	void Update () {
-		
+
+	public void init(){
+
+	}
+
+	public void dodUpdatee(){
+
 	}
 }

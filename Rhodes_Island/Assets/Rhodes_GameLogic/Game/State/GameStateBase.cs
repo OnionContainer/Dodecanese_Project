@@ -2,15 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GameStateBase : MonoBehaviour {
+public abstract class GameStateBase{
+	protected GameBattle battle;
+	public GameStateBase(GameBattle battle){
 
-	// Use this for initialization
-	void Start () {
-		
 	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+	public abstract void enter();
+	public abstract void update();
+	public abstract void leave();
+	public abstract void reset();
 }

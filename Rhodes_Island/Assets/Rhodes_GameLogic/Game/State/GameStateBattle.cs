@@ -2,15 +2,29 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GameStateBattle : MonoBehaviour {
+public class GameStateBattle : GameStateBase{
 
-	// Use this for initialization
-	void Start () {
-		
+	public GameStateBattle(GameBattle battle):base(battle){
+		this.battle = battle;
 	}
-	
-	// Update is called once per frame
-	void Update () {
-		
+
+	public override void enter(){
+
 	}
+
+	public override void leave(){
+
+	}
+
+	public override void update(){
+		//等待修复
+		// this.battle.collision.update();
+		// this.battle.actorMgr.update();
+		// this.battle.map.update();
+	}
+
+	public override void reset(){
+
+	}
+
 }

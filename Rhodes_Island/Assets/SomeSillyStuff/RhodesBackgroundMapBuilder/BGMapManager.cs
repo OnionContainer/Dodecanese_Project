@@ -51,7 +51,7 @@ public class BGMapManager{
 	}
 }
 
-public class BGMap : AugRect{
+public class BGMap{
 
 	public CityPlate[] plates;
 
@@ -61,11 +61,11 @@ public class BGMap : AugRect{
 
 		for (int i = 0; i < source.PLATES_NUMBER; i += 1) {
 			var temp = new CityPlate();
-			temp.Set(0,0,source.RandomPlateHeight,source.RandomPlateWidth);
+			// temp.Set(0,0,source.RandomPlateHeight,source.RandomPlateWidth);
 		}
 	}
 }
 
-public class CityPlate : AugRect{
+public class CityPlate{
 
 }
