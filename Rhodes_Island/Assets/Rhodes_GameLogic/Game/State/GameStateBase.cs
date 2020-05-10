@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public abstract class GameStateBase{
-	protected GameBattle battle;
+	protected GameBattle _battle;
 	public GameStateBase(GameBattle battle){
-
+		_battle = battle;
 	}
 	public abstract void enter();
 	public abstract void update();

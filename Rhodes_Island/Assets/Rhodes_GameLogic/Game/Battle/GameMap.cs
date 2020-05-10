@@ -35,6 +35,8 @@ public class GameMap{
 		return null;
 	}
 
+	public void update(){}
+
 }
 
 public enum NodeType{

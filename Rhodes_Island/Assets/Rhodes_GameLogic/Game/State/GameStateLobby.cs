@@ -2,15 +2,26 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GameStateLobby : MonoBehaviour {
+public class GameStateLobby : GameStateBase {
 
-	// Use this for initialization
-	void Start () {
+	public GameStateLobby(GameBattle battle):base(battle){
 		
 	}
-	
-	// Update is called once per frame
-	void Update () {
-		
+
+	public override void reset(){
+
 	}
+
+	public override void enter(){
+
+	}
+
+	public override void update(){
+
+	}
+
+	public override void leave(){
+
+	}
+
 }

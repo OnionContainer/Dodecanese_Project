@@ -26,8 +26,9 @@ public class RhodesGame{
 		Debug.Log("RhodesGame: initialization complete");
 	}
 
-	public void dodUpdate(){
-		stateMgr.dodUpdatee();
+	public void update(){
+		
+		stateMgr.update();
 	}
 
 }
