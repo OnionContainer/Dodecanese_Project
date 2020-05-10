@@ -16,5 +16,5 @@ public class DodSymbol : MonoBehaviour{
 }
 
 public interface Symbolized{
-	DodSymbol getSymbol();
+	int getSymbol();
 }

@@ -336,6 +336,8 @@ GameObject:
   - component: {fileID: 1954298131}
   - component: {fileID: 1954298130}
   - component: {fileID: 1954298134}
+  - component: {fileID: 1954298129}
+  - component: {fileID: 1954298135}
   m_Layer: 0
   m_Name: BFG-9000
   m_TagString: Untagged
@@ -343,6 +345,17 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &1954298129
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1954298128}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d404f5742c7d26c4492619060b070213, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!23 &1954298130
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -422,6 +435,17 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &1954298135
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1954298128}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 51ebe3f4a21e6cd4180904cba4fac46d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2001712920
 GameObject:
   m_ObjectHideFlags: 0

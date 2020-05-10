@@ -67,7 +67,9 @@ public class DodEventCentre{
 
 public enum EType{
 	NONE,
-	BUT_WE_ALL_WANT_CYBERPUNK2077
+	BUT_WE_ALL_WANT_CYBERPUNK2077,
+	ENTER_MAP_NODE,
+	LEAVE_MAP_NODE
 }
 
 public interface DodEvent{
@@ -86,4 +88,23 @@ public class DE_Cyberpunk2077isReleased:DodEvent{
 	}
 }
 
+public class DE_EnterMapNode : DodEvent{
+	public EType GetEType(){return EType.ENTER_MAP_NODE;}
+	public IntVec point;
+	public GameObject publisher;
+	public DE_EnterMapNode(IntVec point, GameObject publisher){
+		this.point = point;
+		this.publisher = publisher;
+	}
+}
+
+public class DE_LeaveMapNode : DodEvent{
+	public EType GetEType(){return EType.LEAVE_MAP_NODE;}
+	public IntVec point;
+	public GameObject publisher;
+	public DE_LeaveMapNode(IntVec point, GameObject publisher){
+		this.point = point;
+		this.publisher = publisher;
+	}
+}
 

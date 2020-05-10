@@ -9,7 +9,7 @@ public class GameBattle{
 	public ActorMgr actorMgr;
 
 	public ActorCollisionPrecessor collision;
-	public ColiReporter mapNodeCPU;
+	public MapNodeCenter mapNodeCenter;
 
 	public GameUIEvent gameUIEvent;
 
@@ -22,6 +22,7 @@ public class GameBattle{
 		this.actorMgr = new ActorMgr();
 		this.collision = new ActorCollisionPrecessor();
 		this.gameUIEvent = new GameUIEvent();
+		this.mapNodeCenter = new MapNodeCenter();
 	}
 
 	public void prepareLevel(){
