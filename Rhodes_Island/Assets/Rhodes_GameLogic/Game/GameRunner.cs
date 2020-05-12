@@ -11,6 +11,7 @@ public class GameRunner : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		SimpRenderCenter.init();
+		SimpRenderCenter.Instance.showStage(10,5);
 		if (boot) {
 			RhodesGame.Instance.init();
 		}

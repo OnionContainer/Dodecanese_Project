@@ -46,8 +46,8 @@ public class MapNodeCenter{
 	private void onEnter(DodEvent e){
 		DE_EnterMapNode actual = (DE_EnterMapNode)e;
 		string pointKey = actual.point.toKey();//坐标键
-		ActorAccessor accessor = actual.publisher.GetComponent<ActorAccessor>();//目标控制单元
-		int symb = accessor.getSymbol();//目标symbol
+		Profile profile = actual.publisher.GetComponent<Profile>();//获取Profile组件
+		int symb = profile.getSymbol();//目标symbol
 		
 		if (!_actors.ContainsKey(pointKey)) {//若还未存有坐标键，则新增 坐标-Actor集合 的键值对
 			_actors.Add(pointKey, new Dictionary<int, GameObject>());
@@ -63,8 +63,8 @@ public class MapNodeCenter{
 	private void onLeave(DodEvent e){
 		DE_EnterMapNode actual = (DE_EnterMapNode)e;
 		string pointKey = actual.point.toKey();//坐标键
-		ActorAccessor accessor = actual.publisher.GetComponent<ActorAccessor>();//目标控制单元
-		int symb = accessor.getSymbol();//目标symbol
+		Profile profile = actual.publisher.GetComponent<Profile>();//获取Profile组件
+		int symb = profile.getSymbol();//目标symbol
 
 		if (!_actors.ContainsKey(pointKey)){//若还未存有坐标键，则新增 坐标-Actor集合 的键值对
 			_actors.Add(pointKey, new Dictionary<int, GameObject>());

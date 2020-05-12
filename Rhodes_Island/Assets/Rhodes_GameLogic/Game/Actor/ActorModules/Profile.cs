@@ -7,7 +7,17 @@ using UnityEngine;
 Profile类是储存单位基本数据（如攻击力、防御力等）的类
 它还提供一切用于获取Actor信息的接口
 */
-public class Profile : MonoBehaviour {
+public class Profile : MonoBehaviour,Symbolized {
+
+	#region DodSymbol Implementation
+	private DodSymbol _symbol;
+	public int getSymbol(){
+		if (_symbol == null) {
+			_symbol = new DodSymbol();
+		}
+		return _symbol.data;
+	}
+	#endregion
 
 	public GameObject actor;
 

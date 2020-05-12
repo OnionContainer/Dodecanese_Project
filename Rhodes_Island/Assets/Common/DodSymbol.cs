@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DodSymbol : MonoBehaviour{
+public class DodSymbol{
 
 	public static int _curNum = 0;
 
