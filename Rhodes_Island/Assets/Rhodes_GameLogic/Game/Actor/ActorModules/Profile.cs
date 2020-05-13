@@ -23,10 +23,19 @@ public class Profile : MonoBehaviour,Symbolized {
 
 	public void init(Object res){
 		//todo..初始化单位数据
-		
 	}
 
 	private string _name = "Doctor";
+
+	//地图数据
+	private Vector2 _position;
+	public Vector2 position{get{return _position;}set{
+		_position = value;
+		SimpRenderCenter.Instance.moveActorTo(this, _position);
+	}}
+	private float _speed = 0.5f;
+	public float speed{get{return _speed;}}
+	public bool isMovingByRoute = true;
 
 	//伤害计算、战斗相关的数据
 	public AttackTargetingType attackTargetingType = AttackTargetingType.SINGULAR;//攻击取向类型
@@ -49,5 +58,23 @@ public class Profile : MonoBehaviour,Symbolized {
 	public bool isBlockable{get{return this.visible;}}//是否可以被阻挡
 	public int battlePriority{get{return 0;}}//被攻击的优先级
 
+	void Start(){
+		Debug.Log("create Actor");
+		SimpRenderCenter.Instance.createActor(this);
+		actor.GetComponent<ActorRoute>().setRoute("no data");
+		
+		
+		
+	}
+
+	void FixedUpdate(){
+
+		actor.GetComponent<ActorRoute>().dodUpdate();
+		SimpRenderCenter.Instance.moveActorTo(this, _position);
+	}
+
+	private void 我是报错警察不准报错(){
+		Debug.Log(_name);
+	}
 
 }

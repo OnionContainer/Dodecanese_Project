@@ -14,6 +14,7 @@ using UnityEngine;
 public class GameMap{
 
 	private int _mapSize;//葱：这里不应该是长宽两个数吗
+	public int mapSize{get{return _mapSize;}}
 	private MapNode[,] _mapNodeList;
 
 	public GameMap(){

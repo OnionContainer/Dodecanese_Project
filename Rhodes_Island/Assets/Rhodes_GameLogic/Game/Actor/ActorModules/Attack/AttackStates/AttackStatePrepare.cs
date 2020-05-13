@@ -5,7 +5,7 @@ using UnityEngine;
 public class AttackStatePrepare  : AttackStateBase {
 	
 	private DodTimer _timer;
-	private GameObject _singularTarget;
+	private GameObject _singularTarget = null;
 
 	public AttackStatePrepare(AttackMachine machine):base(machine){
 		_timer = new DodTimer(machine.profile.perpTime);
@@ -22,7 +22,7 @@ public class AttackStatePrepare  : AttackStateBase {
 		
 		AttackTargetingType targetingType = _machine.profile.attackTargetingType;
 		ActorSeeker seeker = _machine.seeker;
-		Profile profile = _machine.profile;
+		// Profile profile = _machine.profile;
 
 
 		bool goback = (targetingType==AttackTargetingType.NONE) ||//索敌类型为无

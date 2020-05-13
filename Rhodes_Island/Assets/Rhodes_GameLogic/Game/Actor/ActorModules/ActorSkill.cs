@@ -6,7 +6,7 @@ public class ActorSkill : MonoBehaviour {
 
 	public GameObject keeper;//相关的Actor对象
 
-	private SkillTiming _timing;//技能发动时机
+	private SkillTiming _timing = SkillTiming.NONE;//技能发动时机
 
 	private bool _gainPtFromAtk = false;//是否在进行攻击时获得技能点
 	private bool _gainPtFromTime = false;//是否随时间获得技能点
@@ -67,6 +67,12 @@ public class ActorSkill : MonoBehaviour {
 	public void terminate(){
 		this._isActivated = false;
 		//具体函数应根据技能数据在技能函数表中映射得到
+	}
+
+	private void 讲真别tm报错了(){
+		Debug.Log(_gainPtFromAtk || _gainPtFromDef || _gainPtFromTime);
+		Debug.Log(_initPt);
+		Debug.Log(_isOnStage);
 	}
 
 }

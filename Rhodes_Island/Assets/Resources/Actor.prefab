@@ -22,7 +22,8 @@ GameObject:
   - component: {fileID: 33727496404621520}
   - component: {fileID: 64496703626130672}
   - component: {fileID: 23772332420885850}
-  - component: {fileID: 114660187830702996}
+  - component: {fileID: 114505685032535276}
+  - component: {fileID: 114413123739069678}
   m_Layer: 0
   m_Name: Actor
   m_TagString: Untagged
@@ -36,13 +37,13 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1500561796332004}
-  m_LocalRotation: {x: 0, y: -0.7071068, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 3.13, y: 2.51, z: 1.037117}
-  m_LocalScale: {x: 3, y: 3, z: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 3.13, y: 7.14, z: -4.3}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: -90, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!23 &23772332420885850
 MeshRenderer:
   m_ObjectHideFlags: 1
@@ -56,7 +57,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 2100000, guid: c5a3ed8fc3400f540977b6c26e89f3bb, type: 2}
+  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -81,7 +82,7 @@ MeshFilter:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1500561796332004}
-  m_Mesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
+  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!64 &64496703626130672
 MeshCollider:
   m_ObjectHideFlags: 1
@@ -90,13 +91,13 @@ MeshCollider:
   m_GameObject: {fileID: 1500561796332004}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Convex: 0
   m_InflateMesh: 0
   m_SkinWidth: 0.01
   m_Mesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
---- !u!114 &114660187830702996
+--- !u!114 &114413123739069678
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -104,14 +105,38 @@ MonoBehaviour:
   m_GameObject: {fileID: 1500561796332004}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2dd68c3b10c967b49803614f9b8ea744, type: 3}
+  m_Script: {fileID: 11500000, guid: adc71baa860afed4ba3ccf3b31ce2eb5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  node:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
-      PublicKeyToken=null
-    m_CallsDirty: 1
-  updateInterval: 1
-  lastUpdate: 0
+  actor: {fileID: 1500561796332004}
+  isMovingByRoute: 1
+  attackTargetingType: 2
+  perpTime: 3
+  afterTime: 1
+  visible: 0
+  atkPower: 1
+  atkScale: 1
+  atkBuff: 1
+  armor: 50
+  magicArmor: 0
+  hitpoint: 100
+  maxHitPoint: 100
+  blockAbility: 3
+  antiBlock: 1
+--- !u!114 &114505685032535276
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1500561796332004}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ce6b52b0178648e40af17c10b6efff1a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  actor: {fileID: 1500561796332004}
+  _route:
+  - {x: 5, y: 5}
+  - {x: 7, y: 7}
+  - {x: 10, y: 0}
+  - {x: 0, y: 0}

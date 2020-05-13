@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
+using System;
 
 public class GameRunner : MonoBehaviour {
 
@@ -10,8 +11,11 @@ public class GameRunner : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+
 		SimpRenderCenter.init();
 		SimpRenderCenter.Instance.showStage(10,5);
+		GameObject actor = Resources.Load<GameObject>("Actor");
+		Instantiate(actor);
 		if (boot) {
 			RhodesGame.Instance.init();
 		}

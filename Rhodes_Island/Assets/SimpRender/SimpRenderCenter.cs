@@ -19,9 +19,9 @@ public class SimpRenderCenter{
 	}
 
 	private static void _test(){
-		var p = new Profile();
-		_instance.createActor(p);
-		_instance.moveActorTo(p, new Vector2(6,7.7f));
+		// var p = new Profile();
+		// _instance.createActor(p);
+		// _instance.moveActorTo(p, new Vector2(6,7.7f));
 		
 	}
 
@@ -38,13 +38,17 @@ public class SimpRenderCenter{
 		_actorDic = new Dictionary<int, MapBlock>();
 	}
 
+	//创建Actor
 	public void createActor(Symbolized obj){
 		var block = new MapBlock();
 		_actorDic.Add(obj.getSymbol(), block);
 		block.level = 2;
+		Debug.Log(obj.getSymbol());
 	}
 
+	//移动Actor
 	public void moveActorTo(Symbolized obj, Vector2 point){
+		Debug.Log(obj.getSymbol());
 		_actorDic[obj.getSymbol()].moveTo(point);
 	}
 
