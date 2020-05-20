@@ -8,6 +8,7 @@ Profile类是储存单位基本数据（如攻击力、防御力等）的类
 它还提供一切用于获取Actor信息的接口
 */
 public class Profile : MonoBehaviour,Symbolized {
+	public GameObject actor;
 
 	#region DodSymbol Implementation
 	private DodSymbol _symbol;
@@ -19,29 +20,30 @@ public class Profile : MonoBehaviour,Symbolized {
 	}
 	#endregion
 
-	public GameObject actor;
-
-	public void init(Object res){
-		//todo..初始化单位数据
-	}
-
+	#region 基础数据
 	private string _name = "Doctor";
+	public ActorType actorType = ActorType.OPERATOR;
+	#endregion
 
-	//地图数据
+	#region 几何数据
+	public IntVec nodePosition = new IntVec(4,4);//干员部署到的位置（敌人的这项属性恒为-1，-1）
 	private Vector2 _position;
 	public Vector2 position{get{return _position;}set{
 		_position = value;
-		SimpRenderCenter.Instance.moveActorTo(this, _position);
 	}}
-	private float _speed = 0.5f;
-	public float speed{get{return _speed;}}
+	private float _speed = 2f;
+	public float speed{get{return _speed;}set{
+		//todo..
+		_speed = value;
+	}}
 	public bool isMovingByRoute = true;
+	#endregion
 
-	//伤害计算、战斗相关的数据
+	#region 伤害计算、战斗相关的数据
 	public AttackTargetingType attackTargetingType = AttackTargetingType.SINGULAR;//攻击取向类型
 	public float perpTime = 3;//前摇时间
 	public float afterTime = 1;//后摇时间
-	public bool visible = false;//是否可见（隐形的单位不可见）
+	public bool visible = true;//是否可见（隐形的单位不可见）
 
 	public float atkPower = 1;//攻击力
 	public float atkScale = 1;//攻击倍率
@@ -52,29 +54,47 @@ public class Profile : MonoBehaviour,Symbolized {
 	public float hitpoint = 100;//生命值
 	public float maxHitPoint = 100;//最高生命值
 
+	public bool stunned = false;//被眩晕
+	public bool freezed = false;//被冰冻
+	public bool moveAble{get{//可以移动
+		return !isBlocked && !stunned && !freezed;
+		// return false;
+	}}
+
 	public int blockAbility = 3;//当前可阻挡数
 	public int antiBlock = 1;//被阻挡时，对阻挡干员阻挡数的消耗
+	public List<GameObject> blocks = new List<GameObject>();//正在阻挡的敌人
+	public GameObject beBlockedBy = null;//被谁阻挡
+	public bool canBlock{get{//是否可以进行阻挡
+		return blockAbility > 0;//考虑被眩晕等其他因素
+	}}
 
 	public bool isBlockable{get{return this.visible;}}//是否可以被阻挡
+	public bool isBlocked{get{return beBlockedBy!=null;}}//是否已被阻挡
 	public int battlePriority{get{return 0;}}//被攻击的优先级
+	#endregion
+
+	#region 资源控制
+	private bool _resourceLoaded = false;
+	public void loadRes(string res){
+		_resourceLoaded = true;
+	}
+	#endregion
+
+	void Awake(){
+		
+	}
 
 	void Start(){
 		Debug.Log("create Actor");
-		SimpRenderCenter.Instance.createActor(this);
 		actor.GetComponent<ActorRoute>().setRoute("no data");
-		
-		
-		
 	}
 
 	void FixedUpdate(){
-
-		actor.GetComponent<ActorRoute>().dodUpdate();
-		SimpRenderCenter.Instance.moveActorTo(this, _position);
+		//也许黑板类没必要update
 	}
 
 	private void 我是报错警察不准报错(){
-		Debug.Log(_name);
+		Debug.Log(_name + _resourceLoaded);
 	}
-
 }

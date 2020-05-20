@@ -11,6 +11,7 @@ public class DodSymbol{
 
 	public DodSymbol(){
 		this._data = DodSymbol._curNum;
+		DodSymbol._curNum += 1;
 	}
 
 }

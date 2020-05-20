@@ -17,7 +17,7 @@ public class MapNodeSeeker: ActorSeeker{
     private NodeMapper _nodeMapper = new NodeMapper();
 
     public MapNodeSeeker(ActorType targetType){
-
+        _targetType = targetType;
         // RhodesGame.Instance.battle.mapNodeCenter.getActorsFromPoint
         // ReadOnlyCollectionBase a = new Dictionary<int,int>();
         // System.Collections.ReadOnlyCollectionBase a = null;
@@ -50,7 +50,7 @@ public class MapNodeSeeker: ActorSeeker{
     //返回是否存在已捕捉的Actor
     public bool targetExist(){
         foreach(IntVec point in _nodeMapper.finalPoints){
-            if (RhodesGame.Instance.battle.mapNodeCenter[point].Count > 0){
+            if (RhodesGame.Instance.battle.mapNodeCenter[point, _targetType].Count > 0){
                 return true;
             }
         }
@@ -61,13 +61,12 @@ public class MapNodeSeeker: ActorSeeker{
         List<GameObject> actorList = new List<GameObject>();
 
         foreach(IntVec point in _nodeMapper.finalPoints){
-            foreach(GameObject actor in RhodesGame.Instance.battle.mapNodeCenter[point]){
-                if (!actorList.Contains(actor)) {
+            foreach(GameObject actor in RhodesGame.Instance.battle.mapNodeCenter[point, _targetType]){
+                if (!actorList.Contains(actor) && actor.GetComponent<Profile>().actorType == _targetType) {
                     actorList.Add(actor);
                 }
             }
         }
-        
         // profileList.Sort();//todo..实现priority后按照优先级排序
 
         return actorList;
@@ -75,7 +74,9 @@ public class MapNodeSeeker: ActorSeeker{
 }
 
 
-
+/*
+一个数学类，用来计算当前所监控的点位是哪些
+*/
 class NodeMapper{
 
     private IntVec _origin;

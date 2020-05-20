@@ -6,7 +6,8 @@ public enum ActorType{
 	NONE,
 	OPERATOR,
 	MONSTER,
-	TOKEN
+	TOKEN,
+	ANY
 }
 
 public enum CampType{

@@ -4,11 +4,15 @@ using UnityEngine;
 
 public class RhodesGame{
 
+	public static void init(){
+		_instance = new RhodesGame();
+		_instance.stateMgr.init();
+		Debug.Log("RhodesGame: initialization complete");
+	}
+
+
 	private static RhodesGame _instance;
 	public static RhodesGame Instance{get{
-		if (RhodesGame._instance == null) {
-			RhodesGame._instance = new RhodesGame();
-		}
 		return RhodesGame._instance;
 	}}
 
@@ -21,10 +25,6 @@ public class RhodesGame{
 		stateMgr = new GameStateMgr(battle);
 	}
 
-	public void init(){
-		stateMgr.init();
-		Debug.Log("RhodesGame: initialization complete");
-	}
 
 	public void update(){
 		

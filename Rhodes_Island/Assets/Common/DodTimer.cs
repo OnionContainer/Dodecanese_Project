@@ -8,6 +8,9 @@ using UnityEngine;
 */
 
 public class DodTimer{
+
+	
+
 	public float interval;//单位：秒
 
 	private float _lastAct = 0;

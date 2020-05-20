@@ -20,13 +20,15 @@ public class MNCEmitter{
 	}
 
 	private List<IntVec> _findIntersects(){	
-		//todo..test algorithm
+		
+
 
 		int left = (int)(_rect.x/MapNodeParameter.UNIT_SIZE);
 		int top = (int)(_rect.y/MapNodeParameter.UNIT_SIZE);
 		int right = (int)(_rect.xMax/MapNodeParameter.UNIT_SIZE);
 		int bottom = (int)(_rect.yMax/MapNodeParameter.UNIT_SIZE);
 
+		// Debug.Log("left" + left + "|top"+top+"|right"+right+"|bottom"+bottom);
 		List<IntVec> result = new List<IntVec>();
 
 		for (int x = left; x <= right; x += 1){
@@ -40,6 +42,10 @@ public class MNCEmitter{
 
 	public void pos(float x, float y){
 		_rect.position = new Vector2(x,y);
+	}
+
+	public void pos(Vector2 point){
+		_rect.position = point + Vector2.zero;
 	}
 
 	public void emitEvent(GameObject publisher, ActorType identity = ActorType.NONE){
@@ -69,6 +75,8 @@ public class MNCEmitter{
 		}
 		this._past.Clear();
 	}
+
+
 
 
 }

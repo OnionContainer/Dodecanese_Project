@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using System;
 
 
 public class DodMath{
@@ -37,7 +37,7 @@ public class DodMath{
 
 }
 
-public class IntVec{
+public class IntVec:IEquatable<IntVec>{
 	public int x = 0;
 	public int y = 0;
 
@@ -54,7 +54,7 @@ public class IntVec{
 		return new IntVec(this.x, this.y);
 	}
 
-	public bool equals(IntVec point){
+	public bool Equals(IntVec point){
 		return this.x == point.x && this.y == point.y;
 	}
 
@@ -73,6 +73,18 @@ public class IntVec{
 	public void plus(IntVec point){
 		this.x += point.x;
 		this.y += point.y;
+	}
+
+	public static IEnumerable generateAllInRange(int width, int height){
+		IntVec[] result = new IntVec[width*height];
+		int index = 0;
+		for (int x = 0; x < width; x += 1) {
+			for (int y = 0; y < height; y += 1) {
+				result[index] = new IntVec(x,y);
+				index += 1;
+			}
+		}
+		return result;
 	}
 }
 

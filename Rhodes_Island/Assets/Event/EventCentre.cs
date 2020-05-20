@@ -69,7 +69,8 @@ public enum EType{
 	NONE,
 	BUT_WE_ALL_WANT_CYBERPUNK2077,
 	ENTER_MAP_NODE,
-	LEAVE_MAP_NODE
+	LEAVE_MAP_NODE,
+	BLOCK
 }
 
 public interface DodEvent{
@@ -106,5 +107,17 @@ public class DE_LeaveMapNode : DodEvent{
 		this.point = point;
 		this.publisher = publisher;
 	}
+}
+
+public class DE_Block : DodEvent{
+	public EType GetEType(){return EType.BLOCK;}
+	public GameObject blocker;
+	public GameObject beBlocked;
+
+	public DE_Block(GameObject blocker, GameObject beBlocked) {
+		this.blocker = blocker;
+		this.beBlocked = beBlocked;
+	}
+
 }
 

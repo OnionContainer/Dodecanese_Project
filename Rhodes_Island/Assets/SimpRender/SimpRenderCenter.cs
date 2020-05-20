@@ -22,7 +22,6 @@ public class SimpRenderCenter{
 		// var p = new Profile();
 		// _instance.createActor(p);
 		// _instance.moveActorTo(p, new Vector2(6,7.7f));
-		
 	}
 
 	public GameObject originalPoint;
@@ -43,17 +42,16 @@ public class SimpRenderCenter{
 		var block = new MapBlock();
 		_actorDic.Add(obj.getSymbol(), block);
 		block.level = 2;
-		Debug.Log(obj.getSymbol());
 	}
 
 	//移动Actor
 	public void moveActorTo(Symbolized obj, Vector2 point){
-		Debug.Log(obj.getSymbol());
 		_actorDic[obj.getSymbol()].moveTo(point);
 	}
 
 	//显示战场
 	public void showStage(int width, int height){
+		originalPoint.transform.DetachChildren();
 		_mapDic = new MapBlock[width,height];
 
 		Material mat0 = Resources.Load<Material>("SimpRenderRes/MapBlockSkin");

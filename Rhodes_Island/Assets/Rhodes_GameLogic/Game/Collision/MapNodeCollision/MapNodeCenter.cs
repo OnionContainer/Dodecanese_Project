@@ -13,22 +13,52 @@ todo..此模块还未被测试过
 */
 public class MapNodeCenter{
 
-	private Dictionary<string, Dictionary<int, GameObject>> _actors;
+	private List<IntVec> _loadedNode;
+	public IEnumerable<IntVec> LoadedNodes{get{
+		return _loadedNode;
+	}}
 
-	public DodReadOnlyDictionary<int, GameObject> this[int x, int y]{
+	private Dictionary<string, Dictionary<int, GameObject>> _operators;//储存干员
+	private Dictionary<string, Dictionary<int, GameObject>> _enemies;//储存敌人
+	private Dictionary<string, Dictionary<int, GameObject>> _actors;//储存所有actor
+
+	private Dictionary<string, DodReadOnlyDictionary<int, GameObject>> _readonlyOperators;//储存干员只读节点
+	private Dictionary<string, DodReadOnlyDictionary<int, GameObject>> _readonlyEnemies;//储存敌人只读节点
+	private Dictionary<string, DodReadOnlyDictionary<int, GameObject>> _readonlyActors;//储存所有actor只读节点
+
+	public DodReadOnlyDictionary<int, GameObject> this[int x, int y, ActorType identity]{
 		get{
-			return new DodReadOnlyDictionary<int, GameObject>(getActorsFromPoint(new IntVec(x,y)));
+			return this[new IntVec(x,y), identity];
 		}
 	}
 	
-	public DodReadOnlyDictionary<int, GameObject> this[IntVec point]{
+	public DodReadOnlyDictionary<int, GameObject> this[IntVec point, ActorType identity]{
 		get{
-			return new DodReadOnlyDictionary<int, GameObject>(getActorsFromPoint(point));
+			string pointKey = point.toKey();
+			if (!_actors.ContainsKey(pointKey)) {
+				return null;
+			}
+			if (identity == ActorType.MONSTER) {
+				return _readonlyEnemies[pointKey];
+			} else if (identity == ActorType.OPERATOR) {
+				return _readonlyOperators[pointKey];
+			} else if (identity == ActorType.ANY) {
+				return _readonlyActors[pointKey];
+			} else {
+				Debug.LogWarning("Invalid Actor Type Request");
+				return null;
+			}
 		}
 	}
 	
 	public MapNodeCenter(){
+		_loadedNode = new List<IntVec>();
 		_actors = new Dictionary<string, Dictionary<int, GameObject>>();
+		_enemies = new Dictionary<string, Dictionary<int, GameObject>>();
+		_operators = new Dictionary<string, Dictionary<int, GameObject>>();
+		_readonlyActors = new Dictionary<string, DodReadOnlyDictionary<int, GameObject>>();
+		_readonlyEnemies = new Dictionary<string, DodReadOnlyDictionary<int, GameObject>>();
+		_readonlyOperators = new Dictionary<string, DodReadOnlyDictionary<int, GameObject>>();
 		DodEventCentre.Instance.on(EType.ENTER_MAP_NODE, this.onEnter);
 		DodEventCentre.Instance.on(EType.LEAVE_MAP_NODE, this.onLeave);
 	}
@@ -43,38 +73,73 @@ public class MapNodeCenter{
 		return _actors[pointKey];
 	}
 
-	private void onEnter(DodEvent e){
-		DE_EnterMapNode actual = (DE_EnterMapNode)e;
-		string pointKey = actual.point.toKey();//坐标键
-		Profile profile = actual.publisher.GetComponent<Profile>();//获取Profile组件
+	private void _initPoint(IntVec point) {
+
+		_loadedNode.Add(point.clone());
+
+		string pointKey = point.toKey();
+		Dictionary<int, GameObject>[] dics = new Dictionary<int, GameObject>[]{
+			new Dictionary<int, GameObject>(),
+			new Dictionary<int, GameObject>(),
+			new Dictionary<int, GameObject>()
+		};
+
+		_actors.Add(pointKey, dics[0]);
+		_readonlyActors.Add(pointKey, new DodReadOnlyDictionary<int, GameObject>(dics[0]));
+
+		_enemies.Add(pointKey, dics[1]);
+		_readonlyEnemies.Add(pointKey, new DodReadOnlyDictionary<int, GameObject>(dics[1]));
+
+		_operators.Add(pointKey, dics[2]);
+		_readonlyOperators.Add(pointKey, new DodReadOnlyDictionary<int, GameObject>(dics[2]));
+	}
+
+	private void onEnter(DodEvent eSource){
+		DE_EnterMapNode e = (DE_EnterMapNode)eSource;
+		string pointKey = e.point.toKey();//坐标键
+		Profile profile = e.publisher.GetComponent<Profile>();//获取Profile组件
 		int symb = profile.getSymbol();//目标symbol
+		ActorType actorType = profile.actorType;//目标类型
 		
 		if (!_actors.ContainsKey(pointKey)) {//若还未存有坐标键，则新增 坐标-Actor集合 的键值对
-			_actors.Add(pointKey, new Dictionary<int, GameObject>());
+			_initPoint(e.point);
 		}
 
 		if (!_actors[pointKey].ContainsKey(symb)){//若此Actor此前并未存在于此坐标，则将其加入此坐标
-			_actors[pointKey].Add(symb, actual.publisher);
+			_actors[pointKey].Add(symb, e.publisher);
+			if (actorType == ActorType.OPERATOR) {//将此Actor依照种类存入对应的表中
+				_operators[pointKey].Add(symb, e.publisher);
+			} else if (actorType == ActorType.MONSTER) {
+				_enemies[pointKey].Add(symb, e.publisher);
+			}
+			
 		} else {//若此Actor已经存在于此坐标，则报告重复进入错误
 			Debug.LogWarning("Entering Map Node Twice");
 		}
 	}
 
-	private void onLeave(DodEvent e){
-		DE_EnterMapNode actual = (DE_EnterMapNode)e;
-		string pointKey = actual.point.toKey();//坐标键
-		Profile profile = actual.publisher.GetComponent<Profile>();//获取Profile组件
+	private void onLeave(DodEvent eSource){
+		DE_LeaveMapNode e = (DE_LeaveMapNode)eSource;
+		string pointKey = e.point.toKey();//坐标键
+		Profile profile = e.publisher.GetComponent<Profile>();//获取Profile组件
 		int symb = profile.getSymbol();//目标symbol
+		ActorType actorType = profile.actorType;//目标类型
 
 		if (!_actors.ContainsKey(pointKey)){//若还未存有坐标键，则新增 坐标-Actor集合 的键值对
-			_actors.Add(pointKey, new Dictionary<int, GameObject>());
+			_initPoint(e.point);
 		}
 
 		if (_actors[pointKey].ContainsKey(symb)){//若此Actor已存在于此坐标，则将其移除
 			_actors[pointKey].Remove(symb);
+			if (actorType == ActorType.MONSTER) {//将此Actor依照种类从对应的表中移除
+				_enemies[pointKey].Remove(symb);
+				// Debug.Log("remove");
+			} else if (actorType == ActorType.OPERATOR) {
+				_operators[pointKey].Remove(symb);
+			}
 		} else {//若此Actor还未存在于此坐标，则报告无效离开错误
+			Debug.Log(pointKey);
 			Debug.LogWarning("Invalid Node Leaving");
-
 		}
 	}
 	#endregion

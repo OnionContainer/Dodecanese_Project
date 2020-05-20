@@ -11,18 +11,27 @@ public class AttackMachine : MonoBehaviour {
 	private AttackStateBase _currentState;
 	public ActorSeeker seeker;
 
-	public void init(GameObject actor){
+	public void init(string data){
+		
+	}
+
+	void Awake(){
 		this.profile = actor.GetComponent<Profile>();
+		_states = new Dictionary<AttackStateType, AttackStateBase>();
 		this._states.Add(AttackStateType.WAIT, new AttackStateWait(this));
 		this._states.Add(AttackStateType.PREPARE, new AttackStatePrepare(this));
 		this._states.Add(AttackStateType.AFTER, new AttackStateAfter(this));
 		this._currentState = this._states[AttackStateType.WAIT];
 
 		//todo..根据profile中的属性选择ActorSeeker的对应子类并进行初始化
-		this.seeker = null;
+		this.seeker = new MapNodeSeeker(ActorType.MONSTER);
 	}
 
-	public void update(){
+	void Start(){
+		
+	}
+
+	void Update(){
 		_currentState.update();
 	}
 
