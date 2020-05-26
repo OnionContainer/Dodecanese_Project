@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using System;
 /*
 可能的优化方向：
 当前获取节点内actor的策略会导致频繁创建DodReadOnlyLibrary对象
@@ -11,17 +11,16 @@ using UnityEngine;
 */
 
 
-public class MapNodeSeeker: ActorSeeker{
+public class MapNodeSeekerOld: ActorSeeker{
 
     private ActorType _targetType;
-    private NodeMapper _nodeMapper = new NodeMapper();
+    public NodeMapper nodeMapper = new NodeMapper();
 
-    public MapNodeSeeker(ActorType targetType){
+    public MapNodeSeekerOld(ActorType targetType){
         _targetType = targetType;
         // RhodesGame.Instance.battle.mapNodeCenter.getActorsFromPoint
         // ReadOnlyCollectionBase a = new Dictionary<int,int>();
         // System.Collections.ReadOnlyCollectionBase a = null;
-        
     }
 
     //返回目前捕捉的所有Actor中优先级最高者
@@ -49,7 +48,7 @@ public class MapNodeSeeker: ActorSeeker{
 
     //返回是否存在已捕捉的Actor
     public bool targetExist(){
-        foreach(IntVec point in _nodeMapper.finalPoints){
+        foreach(IntVec point in nodeMapper.finalPoints){
             if (RhodesGame.Instance.battle.mapNodeCenter[point, _targetType].Count > 0){
                 return true;
             }
@@ -60,7 +59,7 @@ public class MapNodeSeeker: ActorSeeker{
     private List<GameObject> _collectActors(){//寻找当前所有被捕捉的actor
         List<GameObject> actorList = new List<GameObject>();
 
-        foreach(IntVec point in _nodeMapper.finalPoints){
+        foreach(IntVec point in nodeMapper.finalPoints){
             foreach(GameObject actor in RhodesGame.Instance.battle.mapNodeCenter[point, _targetType]){
                 if (!actorList.Contains(actor) && actor.GetComponent<Profile>().actorType == _targetType) {
                     actorList.Add(actor);
@@ -77,8 +76,9 @@ public class MapNodeSeeker: ActorSeeker{
 /*
 一个数学类，用来计算当前所监控的点位是哪些
 */
-class NodeMapper{
-
+[Serializable]
+public class NodeMapper{
+    
     private IntVec _origin;
     private List<IntVec> _shifts; 
     private int _rotate = 0;//顺时针旋转多少次

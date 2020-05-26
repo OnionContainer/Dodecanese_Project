@@ -12,6 +12,8 @@ todo..此模块还未被测试过
 
 */
 public class MapNodeCenter{
+	private static DodReadOnlyDictionary<int, GameObject> _empty = 
+	new DodReadOnlyDictionary<int, GameObject>(new Dictionary<int, GameObject>());//固定的一个空列表
 
 	private List<IntVec> _loadedNode;
 	public IEnumerable<IntVec> LoadedNodes{get{
@@ -36,7 +38,7 @@ public class MapNodeCenter{
 		get{
 			string pointKey = point.toKey();
 			if (!_actors.ContainsKey(pointKey)) {
-				return null;
+				return MapNodeCenter._empty;//返回一个固定的空列表避免判空操作
 			}
 			if (identity == ActorType.MONSTER) {
 				return _readonlyEnemies[pointKey];

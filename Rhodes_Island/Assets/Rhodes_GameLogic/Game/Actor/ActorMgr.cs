@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class ActorMgr{
 
-	public List<GameObject> actors;//todo这个数据结构应该是长度可变的数组
-	public List<GameObject> sideBar;
+	public List<GameObject> actors;//场地上的Actor
+	public List<GameObject> sideBar;//存储在侧边栏还未上场的干员
 
 	public ActorMgr(){
 		actors = new List<GameObject>();

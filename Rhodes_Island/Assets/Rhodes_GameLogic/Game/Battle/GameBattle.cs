@@ -4,14 +4,14 @@ using UnityEngine;
 
 public class GameBattle{
 
-	public GameLevel level;
-	public GameMap map;
-	public ActorMgr actorMgr;
+	public GameLevel level;//关卡数据
+	public GameMap map;//地图数据
+	public ActorMgr actorMgr;//Actor管理类
 
-	public ActorCollisionPrecessor collision;
-	public MapNodeCenter mapNodeCenter;
+	public ActorCollisionPrecessor collision;//圆形碰撞检测中心
+	public MapNodeCenter mapNodeCenter;//地图节点中心
 
-	public GameUIEvent gameUIEvent;
+	public GameUIEvent gameUIEvent;//UI事件处理类
 
 	private bool _levelPrepared;
 	public bool isLevelPrepared{get{return this._levelPrepared;}}
@@ -23,6 +23,7 @@ public class GameBattle{
 		this.collision = new ActorCollisionPrecessor();
 		this.gameUIEvent = new GameUIEvent();
 		this.mapNodeCenter = new MapNodeCenter();
+		
 	}
 
 	public void prepareLevel(){

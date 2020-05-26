@@ -15,11 +15,13 @@ public class AttackStateWait : AttackStateBase {
 	private DodTimer _timer = new DodTimer(0);
 
 	public override void update(){
-
-		if (_machine.seeker.targetExist()){//如果存在目标，则切换到前摇阶段
+		if (_machine.profile.nodeCapture.Count > 0) {
 			_machine.changeState(AttackStateType.PREPARE);
 		}
+	}
 
+	public override void enter(){
+		_timer.interval = _machine.profile.perpTime;
 	}
 
 	public override void reset(){

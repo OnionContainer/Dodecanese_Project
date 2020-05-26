@@ -7,6 +7,7 @@ using UnityEngine.Events;
 
 
 public class DodEventCentre{
+
 	private static DodEventCentre _instance;
 	public static DodEventCentre Instance{get{
 		if (DodEventCentre._instance == null) {
@@ -70,7 +71,8 @@ public enum EType{
 	BUT_WE_ALL_WANT_CYBERPUNK2077,
 	ENTER_MAP_NODE,
 	LEAVE_MAP_NODE,
-	BLOCK
+	BLOCK,
+	UI_ACTOR_CLICKED,	//Actor被点击
 }
 
 public interface DodEvent{
@@ -118,6 +120,14 @@ public class DE_Block : DodEvent{
 		this.blocker = blocker;
 		this.beBlocked = beBlocked;
 	}
+}
 
+public class DE_ActorClicked : DodEvent{
+	public EType GetEType(){return EType.UI_ACTOR_CLICKED;}
+	public GameObject clickedActor;
+
+	public DE_ActorClicked(GameObject clicked){
+		clickedActor = clicked;
+	}
 }
 

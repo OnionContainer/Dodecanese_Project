@@ -2,9 +2,6 @@ Actor对象开发说明
 
 Actor对象是代表游戏中干员、敌人的对象
 
-Actor需通过Instantiate方法创建，且创建之初处于nonActive状态
-激活Actor时需要调用其Profile的loadRes函数
-
 为Actor编写组件时，需要在Edit>> Game Settings>> Script Execution Order中将其运行顺序调整到Profile之后
 
 Actor的组件开发使用黑板模式：所有的Actor即时数据储存在Profile组件中。组件中不存任何需要对其他组件可见

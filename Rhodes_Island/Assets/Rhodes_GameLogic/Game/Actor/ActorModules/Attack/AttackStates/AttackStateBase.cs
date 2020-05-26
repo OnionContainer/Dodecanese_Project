@@ -12,6 +12,8 @@ public abstract class AttackStateBase{
 
 	public abstract AttackStateType getStateName();
 
+	public abstract void enter();
+
 	public abstract void update();
 
 	public abstract void reset();

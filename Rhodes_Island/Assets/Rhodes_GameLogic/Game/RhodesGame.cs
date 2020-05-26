@@ -27,7 +27,6 @@ public class RhodesGame{
 
 
 	public void update(){
-		
 		stateMgr.update();
 	}
 

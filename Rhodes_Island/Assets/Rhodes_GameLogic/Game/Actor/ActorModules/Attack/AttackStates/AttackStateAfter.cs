@@ -12,7 +12,11 @@ public class AttackStateAfter :  AttackStateBase {
 
 	public override AttackStateType getStateName(){
 		return AttackStateType.AFTER;
-	}	
+	}
+
+	public override void enter(){
+		
+	}
 
 	public override void update(){
 

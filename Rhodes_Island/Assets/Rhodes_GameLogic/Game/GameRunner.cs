@@ -18,7 +18,7 @@ public class GameRunner : MonoBehaviour {
 
 
 		
-
+		
 		if (GameRunner.Instance != null){
 			throw new Exception("The Phaaaaaaaaaaaaaaantom of the doublesingleton is here, inside my code~~~");
 		}
@@ -26,10 +26,7 @@ public class GameRunner : MonoBehaviour {
 		GameRunner.Instance = this;
 		SimpRenderCenter.init();
 		SimpRenderCenter.Instance.showStage(10,5);
-
-		// if (boot) {
 		RhodesGame.init();
-		// }
 	}
 	
 	// Update is called once per frame

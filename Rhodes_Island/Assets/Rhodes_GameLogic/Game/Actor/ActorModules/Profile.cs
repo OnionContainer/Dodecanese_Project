@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.IO;
 
 
 /*
@@ -20,13 +21,27 @@ public class Profile : MonoBehaviour,Symbolized {
 	}
 	#endregion
 
+	#region 测试数据
+	public string dataName = "";
+	
+	#endregion
+
 	#region 基础数据
 	private string _name = "Doctor";
 	public ActorType actorType = ActorType.OPERATOR;
 	#endregion
 
 	#region 几何数据
-	public IntVec nodePosition = new IntVec(4,4);//干员部署到的位置（敌人的这项属性恒为-1，-1）
+
+
+	[SerializeField]
+	private IntVec _nodePosition = new IntVec(0,0);//干员部署到的位置（敌人的这项属性恒为-1，-1）
+	public IntVec nodePosition{get{
+		return _nodePosition;
+	}set{
+		_nodePosition = value;
+		nodeMapper.origin = _nodePosition;
+	}}
 	private Vector2 _position;
 	public Vector2 position{get{return _position;}set{
 		_position = value;
@@ -36,7 +51,6 @@ public class Profile : MonoBehaviour,Symbolized {
 		//todo..
 		_speed = value;
 	}}
-	public bool isMovingByRoute = true;
 	#endregion
 
 	#region 伤害计算、战斗相关的数据
@@ -69,6 +83,9 @@ public class Profile : MonoBehaviour,Symbolized {
 		return blockAbility > 0;//考虑被眩晕等其他因素
 	}}
 
+	public NodeMapper nodeMapper = new NodeMapper();//攻击范围数据
+	public List<GameObject> nodeCapture = new List<GameObject>();//已捕捉到的敌人
+
 	public bool isBlockable{get{return this.visible;}}//是否可以被阻挡
 	public bool isBlocked{get{return beBlockedBy!=null;}}//是否已被阻挡
 	public int battlePriority{get{return 0;}}//被攻击的优先级
@@ -87,7 +104,18 @@ public class Profile : MonoBehaviour,Symbolized {
 
 	void Start(){
 		Debug.Log("create Actor");
-		actor.GetComponent<ActorRoute>().setRoute("no data");
+		// actor.GetComponent<ActorRoute>().setRoute("no data");
+		nodeMapper.shifts = new IntVec[]{new IntVec(0,0)};
+		try {
+			string jsonfile = File.ReadAllText("Assets/Resources/TestJson/" + dataName + ".json");
+			Debug.Log(jsonfile);
+			ProfileJsonFormat jk = JsonUtility.FromJson<ProfileJsonFormat>(jsonfile);
+			jk.logData();
+			
+		} catch (FileNotFoundException) {
+			Debug.LogWarning("File " + dataName + " Not Found");
+		}
+		
 	}
 
 	void FixedUpdate(){
@@ -96,5 +124,14 @@ public class Profile : MonoBehaviour,Symbolized {
 
 	private void 我是报错警察不准报错(){
 		Debug.Log(_name + _resourceLoaded);
+	}
+}
+
+
+class ProfileJsonFormat{
+	public int k = 0;
+
+	public void logData(){
+		Debug.Log("Kqoweuhffffffffffoqiwehf:" + k);
 	}
 }

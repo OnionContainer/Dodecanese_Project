@@ -37,6 +37,7 @@ public class DodMath{
 
 }
 
+[Serializable]
 public class IntVec:IEquatable<IntVec>{
 	public int x = 0;
 	public int y = 0;

@@ -16,26 +16,23 @@ public class AttackStatePrepare  : AttackStateBase {
 		return AttackStateType.PREPARE;
 	}
 
+	public override void enter(){
 
+	}
 
 	public override void update(){
-		
-		AttackTargetingType targetingType = _machine.profile.attackTargetingType;
-		ActorSeeker seeker = _machine.seeker;
-		// Profile profile = _machine.profile;
+		//todo..考虑使用函数式思路，直接按照不同的攻击类型替换update函数内容，不进行if判定
+		//此处代码实现singular逻辑(单体攻击)
 
-
-		bool goback = (targetingType==AttackTargetingType.NONE) ||//索敌类型为无
-		(seeker.targetExist()) ||//找不到敌人
-		(targetingType == AttackTargetingType.SINGULAR && _singularTarget != seeker.getFocus());//目标丢失
-		if (goback) {
+		if (!_machine.profile.nodeCapture.Contains(_singularTarget)) {
 			_machine.changeState(AttackStateType.WAIT);
 			return;
 		}
 
-		if (_timer.isReady()) {//如果已准备好，则发动攻击，进入后摇
+		if (_timer.isReady()) {
 			_machine.launchAttack();
 			_machine.changeState(AttackStateType.AFTER);
+			return;
 		}
 
 	}
@@ -43,6 +40,7 @@ public class AttackStatePrepare  : AttackStateBase {
 	public override void reset(){
 		_timer.interval = _machine.profile.perpTime;
 		_timer.reset();
+		_singularTarget = _machine.profile.nodeCapture[0];
 	}
 
 	public override float getRemainTime(){

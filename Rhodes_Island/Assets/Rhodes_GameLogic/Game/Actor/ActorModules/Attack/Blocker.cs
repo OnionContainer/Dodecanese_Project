@@ -18,7 +18,6 @@ public class Blocker : MonoBehaviour {
 	// Update is called once per frame
 	void FixedUpdate () {
 		DodReadOnlyDictionary<int, GameObject> dic = RhodesGame.Instance.battle.mapNodeCenter[profile.nodePosition, ActorType.MONSTER];
-		Debug.Log(profile.nodePosition.toKey());
 		if (dic == null || dic.Count == 0) {
 			return;
 		}
@@ -32,8 +31,6 @@ public class Blocker : MonoBehaviour {
 				targetPro.isBlockable &&
 				!profile.blocks.Contains(target) &&
 				profile.blockAbility - targetPro.antiBlock >= 0) {
-
-				Debug.Log("raise");
 
 				//进行阻挡
 				profile.blocks.Add(target);
