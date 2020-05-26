@@ -42,6 +42,8 @@ public class Profile : MonoBehaviour,Symbolized {
 		_nodePosition = value;
 		nodeMapper.origin = _nodePosition;
 	}}
+
+	[SerializeField]
 	private Vector2 _position;
 	public Vector2 position{get{return _position;}set{
 		_position = value;
@@ -104,14 +106,18 @@ public class Profile : MonoBehaviour,Symbolized {
 
 	void Start(){
 		Debug.Log("create Actor");
-		// actor.GetComponent<ActorRoute>().setRoute("no data");
-		nodeMapper.shifts = new IntVec[]{new IntVec(0,0)};
+		actor.GetComponent<ActorRoute>().setRoute("no data");
+		nodeMapper.shifts = new IntVec[]{
+			new IntVec(0,0),
+			new IntVec(1,1),
+			new IntVec(2,2)
+		};
 		try {
-			string jsonfile = File.ReadAllText("Assets/Resources/TestJson/" + dataName + ".json");
-			Debug.Log(jsonfile);
-			ProfileJsonFormat jk = JsonUtility.FromJson<ProfileJsonFormat>(jsonfile);
-			jk.logData();
-			
+			//todo..Load Data File & Setup
+			// string jsonfile = File.ReadAllText("Assets/Resources/TestJson/" + dataName + ".json");
+			// Debug.Log(jsonfile);
+			// ProfileJsonFormat jk = JsonUtility.FromJson<ProfileJsonFormat>(jsonfile);
+			// jk.logData();
 		} catch (FileNotFoundException) {
 			Debug.LogWarning("File " + dataName + " Not Found");
 		}

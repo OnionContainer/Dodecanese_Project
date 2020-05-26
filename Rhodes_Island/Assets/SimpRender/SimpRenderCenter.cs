@@ -4,8 +4,6 @@ using UnityEngine;
 using UnityEditor;
 /*
 简易渲染模块
-
-
 */
 public class SimpRenderCenter{
 
@@ -51,7 +49,6 @@ public class SimpRenderCenter{
 
 	//显示战场
 	public void showStage(int width, int height){
-		originalPoint.transform.DetachChildren();
 		_mapDic = new MapBlock[width,height];
 
 		Material mat0 = Resources.Load<Material>("SimpRenderRes/MapBlockSkin");
@@ -104,7 +101,7 @@ class MapBlock:Symbolized{
 		_symbol = new DodSymbol();
 
 		obj = GameObject.Instantiate(SimpRenderCenter.Instance.mapBlockPrefab, Vector3.zero, Quaternion.identity);
-		obj.transform.parent = SimpRenderCenter.Instance.originalPoint.transform;
+		obj.transform.parent = GlobalGameObject.BattleFieldOriginal.transform;
 		obj.transform.localPosition = Vector3.zero;
 	}
 

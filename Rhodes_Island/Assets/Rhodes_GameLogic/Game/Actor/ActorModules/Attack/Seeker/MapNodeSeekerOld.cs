@@ -135,4 +135,12 @@ public class NodeMapper{
             _finalPoints.Add(shifted);
         }
     }
+
+    public string stringify(){
+        string result = "";
+        foreach(IntVec point in finalPoints) {
+            result += "[" + point.toKey() + "]";
+        }
+        return result;
+    }
 }

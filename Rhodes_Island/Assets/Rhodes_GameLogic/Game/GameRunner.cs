@@ -3,8 +3,16 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 using System;
+using UnityEngine.Events;
 
 
+class Stupid{
+	public List<int> a = new List<int>(new int[]{1,2,3,4,5});
+	public List<IntVec> b = new List<IntVec>(new IntVec[]{
+		new IntVec(1,1),
+		new IntVec(500,1)
+	});
+}
 
 public class GameRunner : MonoBehaviour {
 
@@ -15,10 +23,10 @@ public class GameRunner : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-
-
 		
-		
+		Stupid stupid = new Stupid();
+		Debug.Log(JsonUtility.ToJson(stupid));
+
 		if (GameRunner.Instance != null){
 			throw new Exception("The Phaaaaaaaaaaaaaaantom of the doublesingleton is here, inside my code~~~");
 		}

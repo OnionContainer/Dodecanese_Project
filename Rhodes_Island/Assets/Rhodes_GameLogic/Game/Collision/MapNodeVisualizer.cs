@@ -11,13 +11,11 @@ public class MapNodeVisualizer : MonoBehaviour {
 
 	private GameObject prefab;
 	private Dictionary<string, GameObject> _dic;
-	private GameObject origin;
 
 	void Start () {
 
 		prefab = Resources.Load<GameObject>("TempVisualizerRes/CollideBoard");
 		_dic = new Dictionary<string, GameObject>();
-		origin = GameObject.Find("SimpRenderOriginal");
 
 		//ok
 		
@@ -56,7 +54,7 @@ public class MapNodeVisualizer : MonoBehaviour {
 
 			if (center[point, ActorType.ANY].Count > 0) {
 				if (!_dic.ContainsKey(key)) {
-					GameObject obj = Instantiate(prefab, origin.transform);	
+					GameObject obj = Instantiate(prefab, GlobalGameObject.BattleFieldOriginal.transform);	
 					obj.transform.localPosition = new Vector3(point.x, 1, point.y);
 					_dic.Add(key, obj);
 				}

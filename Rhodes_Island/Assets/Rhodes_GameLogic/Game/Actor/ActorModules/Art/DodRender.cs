@@ -4,15 +4,6 @@ using UnityEngine;
 
 public class DodRender : MonoBehaviour {
 
-
-	private static GameObject _origin;
-	public static GameObject Origin{get{
-		if (_origin == null) {
-			_origin = GameObject.Find("SimpRenderOriginal");
-		}
-		return _origin;
-	}}
-
 	public Profile profile;
 	[SerializeField]
 	private GameObject _renderCube;
@@ -21,7 +12,6 @@ public class DodRender : MonoBehaviour {
 		_renderCube = Instantiate(Resources.Load<GameObject>("SimpRenderRes/Block"));
 	}
 
-	// Use this for initialization
 	void Start () {
 		_renderCube.transform.parent = GameObject.Find("SimpRenderOriginal").transform;
 		if (profile.actorType == ActorType.OPERATOR) {
@@ -33,7 +23,6 @@ public class DodRender : MonoBehaviour {
 		DodEventCentre.Instance.on(EType.UI_ACTOR_CLICKED, onClick);//监听点击事件 
 	}
 	
-	// Update is called once per frame
 	void Update () {
 		_renderCube.transform.localPosition = new Vector3(profile.position.x, 2, profile.position.y);
 	}
@@ -41,14 +30,9 @@ public class DodRender : MonoBehaviour {
 	private void onClick(DodEvent source){
 		DE_ActorClicked e = (DE_ActorClicked)source;
 		if (e.clickedActor == this.profile.actor) {
-			Debug.Log("recieved");
 			GameObject infoBoard = GlobalGameObject.InfoBoard;
 			infoBoard.GetComponent<ObjInfoCtrl>().showInfo(this.profile);
 		}
-
-		
-
-		
 	}
 	
 }
