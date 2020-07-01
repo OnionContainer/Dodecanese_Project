@@ -27,14 +27,22 @@ public class AttackMachine : MonoBehaviour {
 	}
 
 	public void changeState(AttackStateType type){
-		Debug.Log(type.ToString());
+		// Debug.Log(type.ToString());
 		_currentState = _states[type];
 		_currentState.reset();//todo..remove enter
 	}
 
-	public void launchAttack(){
-		Debug.Log("ATTACK");
-		//todo..进行攻击
+	public void launchAttack(GameObject target){
+		Profile targetData = target.GetComponent<Profile>();
+		float damage = profile.atkPower*profile.atkBuff*profile.atkScale - targetData.armor;//物伤公式
+		Debug.Log(damage);
+		targetData.hitpoint -= damage;
+	}
+
+	public void launchAttack(IEnumerable<GameObject> targets){
+		foreach(GameObject target in targets) {
+			launchAttack(target);
+		}
 	}
 
 }

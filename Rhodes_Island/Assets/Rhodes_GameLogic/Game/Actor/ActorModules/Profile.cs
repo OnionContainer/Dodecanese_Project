@@ -29,6 +29,9 @@ public class Profile : MonoBehaviour,Symbolized {
 	#region 基础数据
 	private string _name = "Doctor";
 	public ActorType actorType = ActorType.OPERATOR;
+
+	private bool _isOnStage = false;
+	public bool isDeployable{get {return !_isOnStage;}}//是否可以部署
 	#endregion
 
 	#region 几何数据
@@ -48,6 +51,8 @@ public class Profile : MonoBehaviour,Symbolized {
 	public Vector2 position{get{return _position;}set{
 		_position = value;
 	}}
+
+	[SerializeField]
 	private float _speed = 2f;
 	public float speed{get{return _speed;}set{
 		//todo..
@@ -67,7 +72,19 @@ public class Profile : MonoBehaviour,Symbolized {
 	public float armor = 50;//物理防御
 	public float magicArmor = 0;//法术抗性
 
-	public float hitpoint = 100;//生命值
+
+	public float hitpoint{get{
+		return _hitpoint;
+	}set{
+		// float diff = value - _hitpoint;
+		_hitpoint = value;
+
+		if (_hitpoint <= 0) {
+			die();
+		}
+	}}
+	[SerializeField]
+	private float _hitpoint = 100;//生命值
 	public float maxHitPoint = 100;//最高生命值
 
 	public bool stunned = false;//被眩晕
@@ -93,6 +110,12 @@ public class Profile : MonoBehaviour,Symbolized {
 	public int battlePriority{get{return 0;}}//被攻击的优先级
 	#endregion
 
+	#region 技能相关的数据
+	
+
+
+	#endregion
+
 	#region 资源控制
 	private bool _resourceLoaded = false;
 	public void loadRes(string res){
@@ -105,27 +128,49 @@ public class Profile : MonoBehaviour,Symbolized {
 	}
 
 	void Start(){
-		Debug.Log("create Actor");
-		actor.GetComponent<ActorRoute>().setRoute("no data");
-		nodeMapper.shifts = new IntVec[]{
-			new IntVec(0,0),
-			new IntVec(1,1),
-			new IntVec(2,2)
-		};
+
+		ProfileJsonFormat actorSource = null;
 		try {
-			//todo..Load Data File & Setup
-			// string jsonfile = File.ReadAllText("Assets/Resources/TestJson/" + dataName + ".json");
-			// Debug.Log(jsonfile);
-			// ProfileJsonFormat jk = JsonUtility.FromJson<ProfileJsonFormat>(jsonfile);
-			// jk.logData();
+			//try to load source file
+			actorSource = JsonUtility.FromJson<ProfileJsonFormat>(File.ReadAllText("Assets/Resources/TestJson/" + dataName + ".json"));
 		} catch (FileNotFoundException) {
-			Debug.LogWarning("File " + dataName + " Not Found");
+			Debug.LogWarning("File [" + dataName + "] Not Found");
+			actorSource = ProfileJsonFormat.Default;
 		}
-		
+
+		Debug.Log("active");
+
+		actor.GetComponent<ActorRoute>().setRoute(actorSource.route);
+		nodeMapper.shifts = actorSource.atkShifts;
+
+		// actor.GetComponent<ActorBuffMgr>().addBuff(Buff.GetBuff("", this.actor, this.actor));//测试用默认buff
+
+		actor.transform.SetParent(GlobalGameObject.TestActors.transform);
+	}
+
+	public void die(){
+
+		//todo..发布死亡事件让全世界的数据结构把这个对象移掉
 	}
 
 	void FixedUpdate(){
 		//也许黑板类没必要update
+	}
+
+	/*
+	进行干员部署的设置
+	*/
+	public void deploy(IntVec position, int rotation) {
+		this.nodePosition = position;
+		this.nodeMapper.rotate = rotation;
+		this._isOnStage = true;
+	}
+
+	/*
+	进行干员撤退的设置
+	*/
+	public void retreat(){
+		this._isOnStage = false;
 	}
 
 	private void 我是报错警察不准报错(){
@@ -135,9 +180,16 @@ public class Profile : MonoBehaviour,Symbolized {
 
 
 class ProfileJsonFormat{
-	public int k = 0;
 
-	public void logData(){
-		Debug.Log("Kqoweuhffffffffffoqiwehf:" + k);
-	}
+	private static ProfileJsonFormat _default;
+	public static ProfileJsonFormat Default{get{
+		if (_default == null) {
+			_default = new ProfileJsonFormat();
+		}
+		return _default;
+	}}
+
+	public Vector2[] route = new Vector2[]{new Vector2(0,0),new Vector2(0,3)};
+	public IntVec[] atkShifts = new IntVec[]{};
+
 }

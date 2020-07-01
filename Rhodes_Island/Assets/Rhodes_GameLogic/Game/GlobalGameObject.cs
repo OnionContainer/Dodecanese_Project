@@ -31,5 +31,33 @@ public class GlobalGameObject{
 		}
 		return _BattleFieldOriginal;
 	}}
-	
+
+	private static GameObject _TestActors;
+	public static GameObject TestActors{get{
+		if (_TestActors == null) {
+			_TestActors = GameObject.Find("TestActors");
+		}
+		return _TestActors;
+	}}
+
+	private static GameObject _Ground_Zero;
+	public static GameObject Ground_Zero{get{
+		if (_Ground_Zero == null) {
+			_Ground_Zero = GameObject.Find("Ground_Zero");
+		}
+		return _Ground_Zero;
+	}}
+}
+
+public class GlobalPrefab{
+
+	private static GameObject _Actor;
+	public static GameObject Actor{get{
+		if (_Actor == null) {
+			_Actor = Resources.Load<GameObject>("Actor");
+		}
+		return _Actor;
+	}}
+
+
 }

@@ -73,6 +73,7 @@ public enum EType{
 	LEAVE_MAP_NODE,
 	BLOCK,
 	UI_ACTOR_CLICKED,	//Actor被点击
+	ACTOR_LOCATION,
 }
 
 public interface DodEvent{
@@ -131,3 +132,12 @@ public class DE_ActorClicked : DodEvent{
 	}
 }
 
+//RM = Render module
+public class RM_ActorLocation : DodEvent{
+    public EType GetEType(){return EType.ACTOR_LOCATION;}
+    public Vector2 location;
+
+    public RM_ActorLocation(Vector2 position){
+        location = position;
+    }
+}

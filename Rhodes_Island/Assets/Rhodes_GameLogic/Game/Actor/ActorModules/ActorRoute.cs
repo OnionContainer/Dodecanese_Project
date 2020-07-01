@@ -34,7 +34,7 @@ public class ActorRoute : MonoBehaviour {
 		
 	}
 
-	public void setRoute(List<Vector2> data) {
+	public void setRoute(IEnumerable<Vector2> data) {
 		_route = new List<Vector2>(data);
 		_timeFaultChecker = new DodTimer();
 		profile.position = _route[0];

@@ -21,10 +21,11 @@ public class AttackStateWait : AttackStateBase {
 	}
 
 	public override void enter(){
-		_timer.interval = _machine.profile.perpTime;
+		
 	}
 
 	public override void reset(){
+		_timer.interval = _machine.profile.perpTime;
 		_timer.reset();
 	}
 

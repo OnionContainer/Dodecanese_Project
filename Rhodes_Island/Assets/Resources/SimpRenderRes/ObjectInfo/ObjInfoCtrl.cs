@@ -30,8 +30,6 @@ public class ObjInfoCtrl : MonoBehaviour {
 		GameObject infoBoard = GlobalGameObject.InfoBoard;
 		// centre.transform.SetParent(GlobalGameObject.ObjInfoOriginal.transform);//重设父节点
 
-		Debug.Log(profile.nodeMapper.stringify());
-
 		foreach(IntVec point in profile.nodeMapper.finalPoints) {
 			GameObject box = Instantiate(AtkRangeBox, centre.transform);
 			box.transform.localPosition = new Vector3(point.x, 1, point.y);
