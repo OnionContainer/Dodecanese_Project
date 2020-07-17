@@ -74,6 +74,8 @@ public enum EType{
 	BLOCK,
 	UI_ACTOR_CLICKED,	//Actor被点击
 	ACTOR_LOCATION,
+	OPERATOR_DEPLOYED,
+	OPERATOR_WITHDRAWD
 }
 
 public interface DodEvent{
@@ -140,4 +142,24 @@ public class RM_ActorLocation : DodEvent{
     public RM_ActorLocation(Vector2 position){
         location = position;
     }
+}
+
+public class RM_OperatorDeployed : DodEvent{
+	public EType GetEType(){return EType.OPERATOR_DEPLOYED;}
+	public string name;
+	public Vector2 location;
+
+	public RM_OperatorDeployed(string operatorName, Vector2 position){
+		location = position;
+		name = operatorName;
+	}
+}
+
+public class RM_OperatorWithdrawd : DodEvent{
+	public EType GetEType(){return EType.OPERATOR_WITHDRAWD;}
+	public string name;//按照spine立绘文件名
+
+	public RM_OperatorWithdrawd(string operatorName){
+		name = operatorName;
+	}
 }

@@ -47,6 +47,14 @@ public class GlobalGameObject{
 		}
 		return _Ground_Zero;
 	}}
+
+	private static GameObject _Canvas;
+	public static GameObject Canvas{get{
+		if(_Canvas == null){
+			_Canvas = GameObject.Find("Canvas");
+		}
+		return _Canvas;
+	}}
 }
 
 public class GlobalPrefab{
@@ -58,6 +66,4 @@ public class GlobalPrefab{
 		}
 		return _Actor;
 	}}
-
-
 }

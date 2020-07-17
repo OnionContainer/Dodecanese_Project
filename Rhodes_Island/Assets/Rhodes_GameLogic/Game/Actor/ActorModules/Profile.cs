@@ -47,7 +47,7 @@ public class Profile : MonoBehaviour,Symbolized {
 	}}
 
 	[SerializeField]
-	private Vector2 _position;
+	private Vector2 _position;//几何位置
 	public Vector2 position{get{return _position;}set{
 		_position = value;
 	}}
