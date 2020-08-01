@@ -7,7 +7,7 @@ public class RhodesGame{
 	public static void init(){
 		_instance = new RhodesGame();
 		_instance.stateMgr.init();
-		Debug.Log("RhodesGame: initialization complete");
+		// Debug.Log("RhodesGame: initialization complete");
 	}
 
 
@@ -25,9 +25,9 @@ public class RhodesGame{
 		stateMgr = new GameStateMgr(battle);
 	}
 
-
 	public void update(){
 		stateMgr.update();
+		battle.level.update();
 	}
 
 }

@@ -2,6 +2,34 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+//用来从字符串转换到enum值的工具类
+public class KeyMapping{
+	private static KeyMapping _instance;
+	private static KeyMapping instance{get{
+		if (_instance == null) {
+			_instance = new KeyMapping();
+		}
+		return _instance;
+	}}
+
+	private DodReadOnlyDictionary<string, ActorType> actorType;
+
+	private KeyMapping(){
+		Dictionary<string, ActorType> actorTypeOrigin = new Dictionary<string, ActorType>();
+		actorTypeOrigin.Add("NONE", ActorType.NONE);
+		actorTypeOrigin.Add("OPERATOR", ActorType.OPERATOR);
+		actorTypeOrigin.Add("MONSTER", ActorType.MONSTER);
+		actorTypeOrigin.Add("TOKEN", ActorType.TOKEN);
+		actorTypeOrigin.Add("ANY", ActorType.ANY);
+		actorType = new DodReadOnlyDictionary<string, ActorType>(actorTypeOrigin);
+	}
+
+	//public part
+	public static ActorType ActorTypeToEnum(string str){
+		return instance.actorType[str];
+	}
+}
+
 public enum ActorType{
 	NONE,
 	OPERATOR,

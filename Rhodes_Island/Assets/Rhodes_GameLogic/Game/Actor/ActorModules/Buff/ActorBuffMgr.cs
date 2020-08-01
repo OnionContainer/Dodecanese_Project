@@ -23,6 +23,7 @@ public class ActorBuffMgr : MonoBehaviour {
 	}
 
 	public void addBuff(Buff buff){
+		Debug.Log("waht");
 		if (_buffList.Contains(buff)) {
 			Debug.LogWarning("Buff adding deuplicated");
 			return;

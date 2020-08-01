@@ -129,21 +129,9 @@ public class Profile : MonoBehaviour,Symbolized {
 
 	void Start(){
 
-		ProfileJsonFormat actorSource = null;
-		try {
-			//try to load source file
-			actorSource = JsonUtility.FromJson<ProfileJsonFormat>(File.ReadAllText("Assets/Resources/TestJson/" + dataName + ".json"));
-		} catch (FileNotFoundException) {
-			Debug.LogWarning("File [" + dataName + "] Not Found");
-			actorSource = ProfileJsonFormat.Default;
-		}
 
-		Debug.Log("active");
+		// nodeMapper.shifts = actorSource.atkShifts;
 
-		actor.GetComponent<ActorRoute>().setRoute(actorSource.route);
-		nodeMapper.shifts = actorSource.atkShifts;
-
-		// actor.GetComponent<ActorBuffMgr>().addBuff(Buff.GetBuff("", this.actor, this.actor));//测试用默认buff
 
 		actor.transform.SetParent(GlobalGameObject.TestActors.transform);
 	}
@@ -153,9 +141,6 @@ public class Profile : MonoBehaviour,Symbolized {
 		//todo..发布死亡事件让全世界的数据结构把这个对象移掉
 	}
 
-	void FixedUpdate(){
-		//也许黑板类没必要update
-	}
 
 	/*
 	进行干员部署的设置

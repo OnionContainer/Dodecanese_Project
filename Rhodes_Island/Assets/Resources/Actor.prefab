@@ -24,11 +24,12 @@ GameObject:
   - component: {fileID: 23772332420885850}
   - component: {fileID: 114505685032535276}
   - component: {fileID: 114413123739069678}
-  - component: {fileID: 114278005658006454}
   - component: {fileID: 114782300395385900}
   - component: {fileID: 114221815554074330}
   - component: {fileID: 114695378958586816}
   - component: {fileID: 114843111694364208}
+  - component: {fileID: 114226319478674740}
+  - component: {fileID: 114910910290813770}
   m_Layer: 0
   m_Name: Actor
   m_TagString: Untagged
@@ -114,7 +115,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   profile: {fileID: 114413123739069678}
---- !u!114 &114278005658006454
+--- !u!114 &114226319478674740
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -122,11 +123,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 1500561796332004}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b013074919b729448bc4a841f5eb5439, type: 3}
+  m_Script: {fileID: 11500000, guid: 1744ac93ff5a5474fbfcbf61d559012a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   profile: {fileID: 114413123739069678}
-  _renderCube: {fileID: 0}
+  actor: {fileID: 1500561796332004}
 --- !u!114 &114413123739069678
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -216,3 +217,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   actor: {fileID: 1500561796332004}
+--- !u!114 &114910910290813770
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1500561796332004}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9fa4f6180c80af241ad32abfa37cda00, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  myself: {fileID: 1500561796332004}
+  hideBlock: 0
+  showPath: 1
+  level: 2

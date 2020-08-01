@@ -6,7 +6,8 @@ using UnityEngine.UI;
 
 public class abScript : MonoBehaviour {
 
-
+	private string myname;
+	private Vector2 position;
 	public GameObject cube;
 	// Use this for initialization
 	void Start () {
@@ -15,26 +16,33 @@ public class abScript : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+		
 
-
-		if(Input.GetMouseButtonDown(0)){
+		if(Input.GetMouseButtonUp(0)){
 			Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 			RaycastHit hit;
             if(Physics.Raycast (ray,out hit)){
                 if (hit.collider.gameObject == cube){
-                    print("wtf");
+					sentEvent();
                 }
             }
 		
 		}
 	}
 
-
-	void creatActorUI(){
-		
-		// GameObject tmp = Instantiate(Resources.Load<GameObject>("RenderRes/Panel"),)
-
+	public void setName(string something){
+		myname = something;
 	}
 
+	public void setPosition(Vector2 location){
+		position = location;
+	}
+
+	public void sentEvent(){
+		print(myname+"  "+position);
+		print("Message sent successfully");
+		DodEventCentre.Instance.Invoke(new RM_ActorBlockClicked(myname,position,cube.transform.position));		
+	}
+	
 	
 }

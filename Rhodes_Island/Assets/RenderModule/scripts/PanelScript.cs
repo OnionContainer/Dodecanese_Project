@@ -6,11 +6,14 @@ public class PanelScript : MonoBehaviour {
 
 	private Vector3 worldPosition;
 	private Vector2 mousePosition;
+	private Vector3 cubeWorldPosition;
+	private Vector2 cubeWorldPositionToCanvasPosition;
 
 	// Use this for initialization
 	void Start () {
 		Performance_Center.Instance.ui.data.setMouseDown(false);
-		
+		Performance_Center.Instance.ui.data.setMainUIMouseButtonUp(false);
+		DodEventCentre.Instance.on(EType.ACTORBLOCK_CLICKED,creatActorSubUI);
 	}
 
 
@@ -18,6 +21,10 @@ public class PanelScript : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
+
+		
+
+		
 		//获取鼠标相对于棋盘平面坐标
 		Plane plane = new Plane(Vector3.up, -GlobalGameObject.Ground_Zero.transform.position.y-1);
 
@@ -50,7 +57,7 @@ public class PanelScript : MonoBehaviour {
 		if(Mathf.Floor(mouseLocalPosition.y) >= mapSize.y){
 			mouseLocalPosition.y = mapSize.y - 0.1f;
 		}
-		mousePosition = new Vector2(mouseLocalPosition.x - 0.5f,mouseLocalPosition.y - 0.5f);
+		mousePosition = new Vector2((int)(mouseLocalPosition.x - 0.5f),(int)(mouseLocalPosition.y - 0.5f));
 		
 
 
@@ -67,8 +74,8 @@ public class PanelScript : MonoBehaviour {
 				Performance_Center.Instance.ui.data.setMouseDown(false);
 				Performance_Center.Instance.ui.data.destoryCube();
 				string name = Performance_Center.Instance.ui.data.getOpName();
-				DodEventCentre.Instance.Invoke(new RM_OperatorDeployed(name,mouseLocalPosition));
-				print(name+" "+mouseLocalPosition);
+				DodEventCentre.Instance.Invoke(new RM_OperatorDeployed(name,mousePosition));
+				print(name+" "+mousePosition);
 			}
 		}
 		
@@ -81,6 +88,25 @@ public class PanelScript : MonoBehaviour {
 		return Performance_Center.Instance.mapSize();
 		
 	}
+
+	public void MouseButtonUp(){
+		Performance_Center.Instance.ui.data.setMainUIMouseButtonUp(true);
+	}
+
+	public void creatActorSubUI(DodEvent eSource){
+		Debug.Log("x");
+		RM_ActorBlockClicked e = (RM_ActorBlockClicked)eSource;
+		Vector2 cubeWorldPosition = e.location;
+		// RectTransform CanvasRect = GlobalGameObject.Canvas.GetComponent<RectTransform>();
+		// Vector2 viewPortPosition = Camera.main.WorldToViewportPoint(cubeWorldPosition);
+		// Vector2 cubeCanvasPosition = new Vector2(
+		// 	((viewPortPosition.x*CanvasRect.sizeDelta.x)-(CanvasRect.sizeDelta.x*0.5f)),
+ 		// 	((viewPortPosition.y*CanvasRect.sizeDelta.y)-(CanvasRect.sizeDelta.y*0.5f)));
+		// 	 print(cubeCanvasPosition);
+		// actorSubUI.transform.parent =
+		print(cubeWorldPosition); 
+	}
+
 
 
 

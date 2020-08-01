@@ -35,7 +35,7 @@ public class AttackMachine : MonoBehaviour {
 	public void launchAttack(GameObject target){
 		Profile targetData = target.GetComponent<Profile>();
 		float damage = profile.atkPower*profile.atkBuff*profile.atkScale - targetData.armor;//物伤公式
-		Debug.Log(damage);
+		// Debug.Log(damage);
 		targetData.hitpoint -= damage;
 	}
 

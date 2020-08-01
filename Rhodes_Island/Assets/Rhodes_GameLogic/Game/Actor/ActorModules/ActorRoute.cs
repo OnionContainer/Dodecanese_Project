@@ -23,7 +23,7 @@ public class ActorRoute : MonoBehaviour {
 	}
 	
 
-	public void setRoute(string data){//设置行动路线
+	public void setRoute(){//设置行动路线
 		_route = new List<Vector2>(new Vector2[]{
 			new Vector2(0,0),
 			new Vector2(5f,5f),
@@ -40,6 +40,8 @@ public class ActorRoute : MonoBehaviour {
 		profile.position = _route[0];
 		_lastApproach = 0;
 	}
+
+	
 
 	void FixedUpdate(){
 		if (_routeFinished) {//不能继续前进

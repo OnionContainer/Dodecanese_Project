@@ -32,18 +32,20 @@ public class ActorRender : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		// Debug.Log(this.myself);
 		Vector2 tmpvec2 = GetVector2();
 		moveTo(tmpvec2);
 		sendPosition(showPath);
+		// Debug.Log(tmpvec2);
 		
 	}
 
 	private void creatActorCube(){
-		GameObject actorCube = GameObject.CreatePrimitive(PrimitiveType.Cube);
-		actorCube.transform.parent = GlobalGameObject.Ground_Zero.transform;
-		actorCube.transform.localPosition = new Vector3(x,level,y);
-		myCube = actorCube;
+		GameObject actorCube = Resources.Load<GameObject>("RenderRes/ActorBlock");
+		GameObject actorBlock = Instantiate(actorCube,new Vector3(x,level,y),Quaternion.identity,GlobalGameObject.Ground_Zero.transform);
+		print(actorBlock);
+		actorBlock.transform.localPosition = new Vector3(x,level,y);
+		myCube = actorBlock;
+		actorBlock.GetComponent<abScript>().setName(myself.GetComponent<Profile>().name);
 	}
 
 
@@ -53,6 +55,9 @@ public class ActorRender : MonoBehaviour {
 		x = vec.x;
 		y = vec.y;
 		myCube.transform.localPosition = new Vector3(x,level,y);
+		myCube.GetComponent<abScript>().setPosition(new Vector2((int)x,(int)y));
+		// Debug.Log(myCube.transform.localPosition);
+
 	}
 
 	private void sendPosition(bool isSend){
@@ -65,5 +70,6 @@ public class ActorRender : MonoBehaviour {
 		Vector2 tmpvec2 = myself.GetComponent<Profile>().position;
 		return tmpvec2;
 	}
+
 }
 

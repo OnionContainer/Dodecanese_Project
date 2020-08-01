@@ -11,9 +11,11 @@ public class UIimage : MonoBehaviour {
 	public void hideImage(){
 		if(this.imageDisabled == false){
 			// this.image.SetActive(false);
-			image.transform.localPosition += new Vector3(0,-100,0);
+			// image.transform.localPosition += new Vector3(0,-175,0);
+			Performance_Center.Instance.ui.removeFromReadyList(image);
+			Performance_Center.Instance.ui.addToWaitingList(image);
 			this.imageDisabled = true;
-			DodEventCentre.Instance.on(EType.OPERATOR_WITHDRAWD,showImage);
+			DodEventCentre.Instance.on(EType.SHOW_UI_OPERTAOR,showImage);
 			
 		}
 
@@ -21,7 +23,7 @@ public class UIimage : MonoBehaviour {
 	}
 
 	public void showImage(DodEvent source){
-		RM_OperatorWithdrawd e = (RM_OperatorWithdrawd) source;
+		RM_ShowUIOperator e = (RM_ShowUIOperator) source;
 		string name = e.name;
 		if(myName != name){
 			return;
@@ -29,7 +31,7 @@ public class UIimage : MonoBehaviour {
 
 		if(this.imageDisabled == true){
 			this.imageDisabled = false;
-			image.transform.localPosition += new Vector3(0,100,0);
+			Performance_Center.Instance.ui.addToReadyList(image);
 		}
 	}
 

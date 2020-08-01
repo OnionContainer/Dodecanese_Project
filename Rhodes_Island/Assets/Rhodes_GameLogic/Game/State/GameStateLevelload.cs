@@ -24,7 +24,7 @@ public class GameStateLevelload: GameStateBase {
 		if (true == DodResourceMgr.Instance.LevelPrepared || true) {//暂时设为恒为true
             if (true == _battle.isLevelPrepared || true) {//暂时设为恒为true
                 RhodesGame.Instance.stateMgr.runState(GameStateID.BATTLE);
-                Debug.Log("GameStateLevelload.update: level " + DodResourceMgr.Instance.LevelID + " is prepared.");
+                // Debug.Log("GameStateLevelload.update: level " + DodResourceMgr.Instance.LevelID + " is prepared.");
             }
         }
 	}

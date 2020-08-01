@@ -75,7 +75,10 @@ public enum EType{
 	UI_ACTOR_CLICKED,	//Actor被点击
 	ACTOR_LOCATION,
 	OPERATOR_DEPLOYED,
-	OPERATOR_WITHDRAWD
+	OPERATOR_WITHDRAWD,
+	SHOW_UI_OPERTAOR,
+	ACTORBLOCK_CLICKED,
+	ADD_OPERATOR_TO_MAINUI
 }
 
 public interface DodEvent{
@@ -160,6 +163,38 @@ public class RM_OperatorWithdrawd : DodEvent{
 	public string name;//按照spine立绘文件名
 
 	public RM_OperatorWithdrawd(string operatorName){
+		name = operatorName;
+	}
+}
+
+public class RM_ActorBlockClicked : DodEvent{
+	public EType GetEType(){return EType.ACTORBLOCK_CLICKED;}
+	public string name;
+	public Vector2 location;
+	public Vector3 worldPosition;
+
+	public RM_ActorBlockClicked(string something, Vector2 position, Vector3 worldlocation){
+		name = something;
+		location = position;
+		worldPosition = worldlocation;
+	}
+}
+
+public class RM_AddOperatorToMainUI : DodEvent{
+	public EType GetEType(){return EType.ADD_OPERATOR_TO_MAINUI;}
+	public string name;
+
+	public RM_AddOperatorToMainUI(string something){
+		name = something;
+	}
+}
+
+
+public class RM_ShowUIOperator : DodEvent{
+	public EType GetEType(){return EType.SHOW_UI_OPERTAOR;}
+	public string name;//按照spine立绘文件名
+
+	public RM_ShowUIOperator(string operatorName){
 		name = operatorName;
 	}
 }

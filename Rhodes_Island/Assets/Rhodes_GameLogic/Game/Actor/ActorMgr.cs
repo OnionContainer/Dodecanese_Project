@@ -13,16 +13,7 @@ public class ActorMgr{
 	}
 
 	public void init(Object res){
-		this._initEnemy(res);
-		this._initOprt(res);
-	}
 
-	private void _initEnemy(Object res){
-		//todo..
-	}
-
-	private	void _initOprt(Object res){
-		//todo..
 	}
 
 	public void awake(){
@@ -41,16 +32,27 @@ public class ActorMgr{
 
 	}
 
-
-
 	/*
 	创建干员并将其移动到sideBar
 	此函数所创建的干员处于未激活的状态
 	*/
-	public void createOprt(){
+	public GameObject createOprt(string source){
 		GameObject oprt = GameObject.Instantiate(GlobalPrefab.Actor);
-		oprt.SetActive(false);
+		oprt.GetComponent<ActorCtrl>().loadData(new ActorData());
 		this.sideBar.Add(oprt);
+		return oprt;
+	}
+
+	/*
+	创建敌人并将其移动到场上
+	此函数所创建的敌人处于已激活的状态
+	*/
+	public GameObject createEnemy(string source){
+		GameObject enemy = GameObject.Instantiate(GlobalPrefab.Actor);
+		enemy.GetComponent<ActorCtrl>().loadData(DodResources.GetActorData(source));
+		this.actors.Add(enemy);
+		enemy.GetComponent<ActorCtrl>().activate();
+		return enemy;
 	}
 
 	/*
@@ -85,9 +87,7 @@ public class ActorMgr{
 		}
 	}
 	
-	public void createActor(ActorType actorType, Object res){
-		//create actor
-	}
+
 
 	
 

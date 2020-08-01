@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 /**
  * 模块说明: 游戏战斗地图模块  
@@ -18,19 +19,45 @@ public class GameLevel{
 	private int _initialCost;
 	private int _currentCost;
 	private int _lifePoint;
-	private int _timeLine;//这是啥？
 	private Buff[] _globalBuffList;
+	private LinkedList<LevelTimelineCommand> _timeline = new LinkedList<LevelTimelineCommand>();
+	private DodTimer _timer = new DodTimer();
 
-	public GameLevel(){
-
-	}
-
-	public void init(Object res){
+	public void init(string levelCode){
 		this.reset();
+		GameLevelData data = DodResources.GetLevelData(levelCode);
+		//判空
+		if (data == null) {
+			throw new System.Exception("level not found");
+		}
+
+
+		
+
+		//循环构筑timeline
+		string[] spliter = new string[]{"__"};
+
+		foreach(string code in data.commandSource) {
+			_timeline.AddLast(new LevelTimelineCommand(
+				code.Split(spliter, StringSplitOptions.None)
+			));
+		}
+
+		foreach(LevelTimelineCommand line in _timeline) {
+			line.print();
+		}
+
 		//todo：初始化关卡参数
 	}
 
 	public void update(){
+		// while (_timeline.Count > 0 && _timer.getElapsedTime() > _timeline.First.Value.time) {
+		// 	LevelTimelineCommand toExecute = _timeline.First.Value;
+		// 	// if (toExecute.type.Equals("Enemy_Out")) {
+		// 	// 	Debug.Log("Enemy_Out");
+		// 	// }
+			
+		// }
 		//todo
 		//更新费用
 		//更新全局buff
@@ -44,7 +71,36 @@ public class GameLevel{
 	private void _updateCost(){}
 
 	public void reset(){
+		_timer.reset();
 		//todo..
 	}
 
 }
+
+
+
+public class LevelTimelineCommand{
+	public int time = 1000;
+	public string type = "Enemy_Out";
+	public string resource = "Neosb";
+	public LevelTimelineCommand(){}
+	public LevelTimelineCommand(int time, string type, string res){
+		this.time = time;
+		this.type = type;
+		this.resource = res;
+	}
+	public LevelTimelineCommand(string[] codes) {
+		this.time = Int16.Parse(codes[0]);
+		this.type = codes[1];
+		this.resource = codes[2];
+	}
+	public void print(){
+		Debug.Log("LevelTimeLine:\nTime:" + this.time + 
+			"\nType:" + this.type + 
+			"\nResource:" + this.resource
+		);
+
+	}
+}
+
+

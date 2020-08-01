@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.IO;
 
 public class MapRender {
 
@@ -118,7 +119,7 @@ public class Performance_Center {
 	public static void init(int width, int height ,bool hideOrigin = true){
 		Performance_Center.Instance = new Performance_Center();
 		Performance_Center.Instance.origin = GlobalGameObject.Ground_Zero;
-		Performance_Center.Instance.ui = new MainUI(10);
+		Performance_Center.Instance.ui = new MainUI();
 		Performance_Center.Instance.ui.init();
 		//*****************************//
 		Performance_Center.Instance.deployMap(height,width,hideOrigin);
@@ -144,20 +145,37 @@ public class Performance_Center {
 	}
 
 
+// /// <summary>
+// /// 为ui干员栏挂载立绘
+// /// </summary>
+// /// <param name="num">干员栏中第几号</param>
+// /// <param name="operatoeName">干员名，查询骨骼文件</param>
+// /// <param name="costumeName">服装名，查询骨骼文件</param>
+// /// <param name="serial">服装编号，仅在默认服装下有效，查询骨骼文件</param>
+// 	public void loadImage(int num,string operatoeName,string costumeName,string serial = "0"){
+// 		ui.loadImage( num, operatoeName, costumeName,serial);
+// 	}
+
+
 
 }
 
 public class MainUI{
 
-	private int actorNum;
+	// private int actorNum;
 	private GameObject uiPanel;
-	private GameObject[] images;
+	// private GameObject[] images;
+	private LinkedList<GameObject> imagesReady;
+	private LinkedList<GameObject> imagesWaiting;
 	public mainUIMouseData data;
+	public actroSubUIData subUIData;
 
-	public MainUI(int num){
-		this.actorNum = num;
-		images = new GameObject[this.actorNum];
+	public MainUI(){
+		// this.actorNum = num;
+		// images = new GameObject[this.actorNum];
+		
 		data = new mainUIMouseData();
+		subUIData = new actroSubUIData();
 	}
 
 	public void init(){
@@ -165,16 +183,102 @@ public class MainUI{
 		GameObject UI = GameObject.Instantiate(tmpUI);
 		UI.transform.SetParent(GlobalGameObject.Canvas.transform,false);
 		uiPanel = UI;
-		for(int i = 0; i < actorNum; i ++){
-			images[i] = GameObject.Instantiate(Resources.Load<GameObject>("RenderRes/Image"));
-			images[i].transform.SetParent(this.uiPanel.transform,false);
-			images[i].transform.localPosition = new Vector2(50+ i*110,50);
-			// images[i].GetComponent<UIImage>().burnNum(i);
-		}
+		imagesReady = new LinkedList<GameObject>();
+		imagesWaiting = new LinkedList<GameObject>();
+		DodEventCentre.Instance.on(EType.ADD_OPERATOR_TO_MAINUI,addOperatorToMainUI);
+	}
+	
+
+	private void addOperatorToMainUI(DodEvent eSource){
+		RM_AddOperatorToMainUI e = (RM_AddOperatorToMainUI) eSource;
+		GameObject tmp = GameObject.Instantiate(Resources.Load<GameObject>("RenderRes/Image"));
+		imagesReady.AddLast(tmp);
+		tmp.transform.SetParent(this.uiPanel.transform,false);
+		tmp.transform.localPosition = new Vector2(-50- (imagesReady.Count-1)*110,87.5f);
+		loadImage(tmp,e.name);		
+	}
+	// 	for(int i = 0; i < actorNum; i ++){
+	// 		GameObject tmp = GameObject.Instantiate(Resources.Load<GameObject>("RenderRes/Image"));
+	// 		imagess.AddLast(tmp);
+	// 		tmp.transform.SetParent(this.uiPanel.transform,false);
+	// 		tmp.transform.localPosition = new Vector2(50+ i*110,87.5f);
+	// 		// images[i] = GameObject.Instantiate(Resources.Load<GameObject>("RenderRes/Image"));
+	// 		// images[i].transform.SetParent(this.uiPanel.transform,false);
+	// 		// images[i].transform.localPosition = new Vector2(50+ i*110,87.5f);
+	// 		// images[i].GetComponent<UIImage>().burnNum(i);
+	// 	}
+	// }
+
+	// public GameObject getImage(int num){
+	// 	int counter = 0;
+	// 	LinkedListNode<GameObject> tmp = imagess.First;
+	// 	if(num == 0){
+	// 		return tmp.Value;
+	// 	}else{
+	// 		while(counter < num){
+	// 			counter++;
+	// 			tmp = tmp.Next;
+	// 		}
+	// 		return tmp.Value;
+	// 	}
+		
+	// }
+
+	private void loadImage(GameObject image,string operatoeName){
+		string path;
+		path = "Assets/Resources/RenderRes/spine_assets/char/"+operatoeName+"/default/painting/char_"+operatoeName+"_1.png";
+		Texture2D texture = new Texture2D(1024,1024);
+		texture.filterMode = FilterMode.Trilinear;
+		byte[] bytes = File.ReadAllBytes(path);
+		texture.LoadImage(bytes);
+		Sprite sprite = Sprite.Create(texture,new Rect(300,0,450,1024),new Vector2(0.5f,0.5f),1.0f);
+		image.GetComponent<UnityEngine.UI.Image>().sprite = sprite;
 	}
 
-	public GameObject getImage(int num){
-		return this.images[num];
+	public void removeFromReadyList(GameObject something){
+		imagesReady.Remove(imagesReady.Find(something));
+		// GameObject.Destroy(something);
+		updateReadyListLocation();
+		updateWaitingListLocation();
+	}
+
+	private void updateReadyListLocation(){
+		if(imagesReady.First == null){return;}
+		LinkedListNode<GameObject> tmpNode = imagesReady.First;
+		int i = 0;
+		while(tmpNode.Next != null){
+			tmpNode.Value.transform.localPosition = new Vector2(-50- i*110,87.5f);
+			i++;
+			tmpNode = tmpNode.Next;
+		}
+		tmpNode.Value.transform.localPosition = new Vector2(-50- i*110,87.5f);
+	}
+
+	public void addToWaitingList(GameObject something){
+		imagesWaiting.AddLast(something);
+		updateReadyListLocation();
+		updateWaitingListLocation();
+	}
+
+	private void updateWaitingListLocation(){
+		if(imagesWaiting.First == null){
+			return;
+		}
+		LinkedListNode<GameObject> tmpNode = imagesWaiting.First;
+		int i = 0;
+		while(tmpNode.Next != null){
+			tmpNode.Value.transform.localPosition = new Vector2(-150-(imagesReady.Count+i)*110,87.5f);
+			i++;
+			tmpNode = tmpNode.Next;
+		}
+		tmpNode.Value.transform.localPosition = new Vector2(-150-(imagesReady.Count+i)*110,87.5f);
+	}
+
+	public void addToReadyList(GameObject something){
+		imagesWaiting.Remove(something);
+		imagesReady.AddLast(something);
+		updateReadyListLocation();
+		updateWaitingListLocation();
 	}
 
 
@@ -188,9 +292,18 @@ public class mainUIMouseData{
 	private bool cubeCreated;
 	private GameObject tmpCube;
 	private string operatorName;
+	private bool mainUIMouseButtonUp;
 
 	public mainUIMouseData(){
 
+	}
+
+	public bool getMainUIMouseButtonUp(){
+		return mainUIMouseButtonUp;
+	}
+
+	public void setMainUIMouseButtonUp(bool something){
+		mainUIMouseButtonUp = something;
 	}
 
 	public string getOpName(){
@@ -235,5 +348,43 @@ public class mainUIMouseData{
 
 	public void setOpName(string something){
 		operatorName = something;
+	}
+}
+
+
+public class actroSubUIData{
+
+	private bool actorUIPanelClicked;
+	private GameObject subUI;
+	private bool test;
+
+	public actroSubUIData(){
+
+	}
+
+	public bool getMainUIMouseButtonUp(){
+		return actorUIPanelClicked;
+	}
+
+	public void setMainUIMouseButtonUp(bool something){
+		actorUIPanelClicked = something;
+	}
+
+	public GameObject getSubUI(){
+		return subUI;
+	}
+
+	public void creatSubUI(Vector2 location){
+		GameObject tmp = Resources.Load<GameObject>("RenderRes/UIPanelForActor");
+		subUI = GameObject.Instantiate(tmp);
+		subUI.transform.parent = GlobalGameObject.Canvas.transform;
+		subUI.transform.localPosition = location;
+	}
+	public bool gettest(){
+		return actorUIPanelClicked;
+	}
+
+	public void settest(bool something){
+		actorUIPanelClicked = something;
 	}
 }

@@ -10,7 +10,6 @@ public class AttackStatePrepare : AttackStateBase {
 
 	public AttackStatePrepare(AttackMachine machine):base(machine){
 		_timer = new DodTimer(machine.profile.perpTime);
-		
 	}
 
 	public override AttackStateType getStateName(){

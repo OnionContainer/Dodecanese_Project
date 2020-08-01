@@ -19,7 +19,7 @@ public class MNCEmitter{
 		_rect = new Rect(0,0,MapNodeParameter.UNIT_SUBSIZE, MapNodeParameter.UNIT_SUBSIZE);
 	}
 
-	private List<IntVec> _findIntersects(){	
+	private List<IntVec> _findIntersects(){
 		
 
 

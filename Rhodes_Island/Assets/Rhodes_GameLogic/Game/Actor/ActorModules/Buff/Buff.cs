@@ -15,8 +15,11 @@ public abstract class Buff{
 	protected GameObject _reciever;
 	public List<BuffTag> tags;
 
-	public static Buff GetBuff(string data, GameObject creator, GameObject reciever){
-		return new DefaultBuff(creator, reciever);
+	public static Buff GetBuff(string type, GameObject creator, GameObject reciever){
+		if (type=="default") {
+			return new DefaultBuff(creator, reciever);
+		}
+		return null;
 	}
 
 	public abstract void update();//更新
@@ -35,7 +38,7 @@ class DefaultBuff:Buff{
 	}
 
 	public override void update(){
-		Debug.Log("Buff Update");
+		// Debug.Log("Buff Update");
 		if (_timer.isReady()) {
 			this._reciever.GetComponent<ActorBuffMgr>().removeBuff(this);
 		}
