@@ -18,8 +18,6 @@ public class MapRender {
 		return new Vector2(this.length,this.height);
 	}
 
-
-
 	public MapRender(int length, int height, bool hideOrigin = true){
 		this.length = length;
 		this.height = height;
@@ -114,8 +112,6 @@ public class Performance_Center {
 	public MainUI ui;
 	public bool test = false;
 
-	
-
 	public static void init(int width, int height ,bool hideOrigin = true){
 		Performance_Center.Instance = new Performance_Center();
 		Performance_Center.Instance.origin = GlobalGameObject.Ground_Zero;
@@ -128,13 +124,9 @@ public class Performance_Center {
 		Debug.Log("Performance_Center initialization complete!!");
 	}
 
-
-
 	private static void _test(){
 		//anything you want to do 
 	}
-
-
 
 	public void deployMap(int height, int length, bool hideOrigin = true){
 		Performance_Center.Instance.map = new MapRender(length,height, hideOrigin);
@@ -143,19 +135,6 @@ public class Performance_Center {
 	public Vector2 mapSize(){
 		return map.mapSize();
 	}
-
-
-// /// <summary>
-// /// 为ui干员栏挂载立绘
-// /// </summary>
-// /// <param name="num">干员栏中第几号</param>
-// /// <param name="operatoeName">干员名，查询骨骼文件</param>
-// /// <param name="costumeName">服装名，查询骨骼文件</param>
-// /// <param name="serial">服装编号，仅在默认服装下有效，查询骨骼文件</param>
-// 	public void loadImage(int num,string operatoeName,string costumeName,string serial = "0"){
-// 		ui.loadImage( num, operatoeName, costumeName,serial);
-// 	}
-
 
 
 }
@@ -171,9 +150,6 @@ public class MainUI{
 	public actroSubUIData subUIData;
 
 	public MainUI(){
-		// this.actorNum = num;
-		// images = new GameObject[this.actorNum];
-		
 		data = new mainUIMouseData();
 		subUIData = new actroSubUIData();
 	}
@@ -193,36 +169,12 @@ public class MainUI{
 		RM_AddOperatorToMainUI e = (RM_AddOperatorToMainUI) eSource;
 		GameObject tmp = GameObject.Instantiate(Resources.Load<GameObject>("RenderRes/Image"));
 		imagesReady.AddLast(tmp);
+		tmp.GetComponent<UIimage>().loadNameToImage(e.name);
+		tmp.GetComponent<UIimage>().clickAble = true;
 		tmp.transform.SetParent(this.uiPanel.transform,false);
 		tmp.transform.localPosition = new Vector2(-50- (imagesReady.Count-1)*110,87.5f);
 		loadImage(tmp,e.name);		
 	}
-	// 	for(int i = 0; i < actorNum; i ++){
-	// 		GameObject tmp = GameObject.Instantiate(Resources.Load<GameObject>("RenderRes/Image"));
-	// 		imagess.AddLast(tmp);
-	// 		tmp.transform.SetParent(this.uiPanel.transform,false);
-	// 		tmp.transform.localPosition = new Vector2(50+ i*110,87.5f);
-	// 		// images[i] = GameObject.Instantiate(Resources.Load<GameObject>("RenderRes/Image"));
-	// 		// images[i].transform.SetParent(this.uiPanel.transform,false);
-	// 		// images[i].transform.localPosition = new Vector2(50+ i*110,87.5f);
-	// 		// images[i].GetComponent<UIImage>().burnNum(i);
-	// 	}
-	// }
-
-	// public GameObject getImage(int num){
-	// 	int counter = 0;
-	// 	LinkedListNode<GameObject> tmp = imagess.First;
-	// 	if(num == 0){
-	// 		return tmp.Value;
-	// 	}else{
-	// 		while(counter < num){
-	// 			counter++;
-	// 			tmp = tmp.Next;
-	// 		}
-	// 		return tmp.Value;
-	// 	}
-		
-	// }
 
 	private void loadImage(GameObject image,string operatoeName){
 		string path;
@@ -256,6 +208,8 @@ public class MainUI{
 
 	public void addToWaitingList(GameObject something){
 		imagesWaiting.AddLast(something);
+		Debug.Log(something.GetComponent<UIimage>().clickAble);
+		something.GetComponent<UIimage>().clickAble=false;
 		updateReadyListLocation();
 		updateWaitingListLocation();
 	}
@@ -277,8 +231,15 @@ public class MainUI{
 	public void addToReadyList(GameObject something){
 		imagesWaiting.Remove(something);
 		imagesReady.AddLast(something);
+		Debug.Log(something.GetComponent<UIimage>().clickAble);
+		something.GetComponent<UIimage>().clickAble=true;
 		updateReadyListLocation();
 		updateWaitingListLocation();
+	}
+
+	public void log(){
+		Debug.Log("ready"+imagesReady.Count);
+		Debug.Log("waiting"+imagesWaiting.Count);
 	}
 
 
@@ -327,8 +288,6 @@ public class mainUIMouseData{
 		imageMouseDown = something;
 	}
 
-
-
 	public void setCubeCreated(bool something){
 		cubeCreated = something;
 	}
@@ -353,38 +312,50 @@ public class mainUIMouseData{
 
 
 public class actroSubUIData{
-
-	private bool actorUIPanelClicked;
+	private bool subUICreated;
+	private bool subUIPointorDown;
 	private GameObject subUI;
-	private bool test;
+	private bool subCanvasPointorDown;
+	private string name;
 
-	public actroSubUIData(){
-
+	public string getName(){
+		return name;
 	}
 
-	public bool getMainUIMouseButtonUp(){
-		return actorUIPanelClicked;
+	public void setName(string something){
+		name = something;
 	}
 
-	public void setMainUIMouseButtonUp(bool something){
-		actorUIPanelClicked = something;
+	public bool getSubUIPointorDown(){
+		return subUIPointorDown;
+	}
+
+	public void setSubUIPointorDown(bool something){
+		subUIPointorDown = something;
+	}
+
+	public bool getSubCanvasPointorDown(){
+		return subCanvasPointorDown;
+	}
+
+	public void setSubCanvasPointorDown(bool something){
+		subCanvasPointorDown = something;
 	}
 
 	public GameObject getSubUI(){
 		return subUI;
 	}
 
-	public void creatSubUI(Vector2 location){
-		GameObject tmp = Resources.Load<GameObject>("RenderRes/UIPanelForActor");
-		subUI = GameObject.Instantiate(tmp);
-		subUI.transform.parent = GlobalGameObject.Canvas.transform;
-		subUI.transform.localPosition = location;
-	}
-	public bool gettest(){
-		return actorUIPanelClicked;
+	public void setSubUI(GameObject something){
+		subUI = something;
 	}
 
-	public void settest(bool something){
-		actorUIPanelClicked = something;
+	public void setSubUICreated(bool something){
+		subUICreated = something;
 	}
+
+	public bool getSubUICreated(){
+		return subUICreated;
+	}
+
 }

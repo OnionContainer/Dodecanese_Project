@@ -38,7 +38,13 @@ public class ActorMgr{
 	*/
 	public GameObject createOprt(string source){
 		GameObject oprt = GameObject.Instantiate(GlobalPrefab.Actor);
-		oprt.GetComponent<ActorCtrl>().loadData(new ActorData());
+		ActorData data = DodResources.GetActorData(source);
+		if (data == null) {
+			Debug.Log("NotFound");
+			data = DodResources.GetActorData("DefaultOprt");
+			Debug.Log(data.type);
+		}
+		oprt.GetComponent<ActorCtrl>().loadData(DodResources.GetActorData(source));
 		this.sideBar.Add(oprt);
 		return oprt;
 	}

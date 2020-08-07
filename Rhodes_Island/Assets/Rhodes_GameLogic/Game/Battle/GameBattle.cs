@@ -11,7 +11,7 @@ public class GameBattle{
 	public ActorCollisionPrecessor collision;//圆形碰撞检测中心
 	public MapNodeCenter mapNodeCenter;//地图节点中心
 
-	public GameUIEvent gameUIEvent;//UI事件处理类
+	public GameUIEventReciever gameUIEvent;//UI事件处理类
 
 	private bool _levelPrepared;
 	public bool isLevelPrepared{get{return this._levelPrepared;}}
@@ -21,7 +21,7 @@ public class GameBattle{
 		this.map = new GameMap();
 		this.actorMgr = new ActorMgr();
 		this.collision = new ActorCollisionPrecessor();
-		this.gameUIEvent = new GameUIEvent();
+		this.gameUIEvent = new GameUIEventReciever();
 		this.mapNodeCenter = new MapNodeCenter();
 		
 	}

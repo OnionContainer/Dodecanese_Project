@@ -11,7 +11,7 @@ public class abScript : MonoBehaviour {
 	public GameObject cube;
 	// Use this for initialization
 	void Start () {
-		
+		Performance_Center.Instance.ui.subUIData.setSubUICreated(false);
 	}
 	
 	// Update is called once per frame
@@ -23,7 +23,8 @@ public class abScript : MonoBehaviour {
 			RaycastHit hit;
             if(Physics.Raycast (ray,out hit)){
                 if (hit.collider.gameObject == cube){
-					sentEvent();
+					actorBlockClicked();
+
                 }
             }
 		
@@ -38,11 +39,30 @@ public class abScript : MonoBehaviour {
 		position = location;
 	}
 
-	public void sentEvent(){
+	private void actorBlockClicked(){
 		print(myname+"  "+position);
 		print("Message sent successfully");
-		DodEventCentre.Instance.Invoke(new RM_ActorBlockClicked(myname,position,cube.transform.position));		
+		DodEventCentre.Instance.Invoke(new RM_ActorBlockClicked(myname,position,cube.transform.position));
+		if(Performance_Center.Instance.ui.subUIData.getSubUICreated() == false){
+			GameObject tmp = loadSubCanvas();
+			subUIRelocate(tmp);
+			Performance_Center.Instance.ui.subUIData.setName(myname);
+			Performance_Center.Instance.ui.subUIData.setSubUI(tmp);
+			Performance_Center.Instance.ui.subUIData.setSubUICreated(true);
+			Performance_Center.Instance.ui.subUIData.setSubCanvasPointorDown(false);
+			Performance_Center.Instance.ui.subUIData.setSubUIPointorDown(false);
+		}		
 	}
 	
+	private GameObject loadSubCanvas(){
+		return GameObject.Instantiate(Resources.Load<GameObject>("RenderRes/Canvas"));
+	}
+
+	private void subUIRelocate(GameObject something){
+		something.transform.SetParent(cube.transform,false);
+		something.transform.rotation = GlobalGameObject.Canvas.transform.rotation;
+		something.transform.localPosition = new Vector3(0,0,0);
+	}
 	
+
 }

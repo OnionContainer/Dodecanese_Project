@@ -20,7 +20,7 @@ public class GameLevel{
 	private int _currentCost;
 	private int _lifePoint;
 	private Buff[] _globalBuffList;
-	private LinkedList<LevelTimelineCommand> _timeline = new LinkedList<LevelTimelineCommand>();
+	private LinkedList<TimeCommand> _timeline = new LinkedList<TimeCommand>();
 	private DodTimer _timer = new DodTimer();
 
 	public void init(string levelCode){
@@ -38,12 +38,12 @@ public class GameLevel{
 		string[] spliter = new string[]{"__"};
 
 		foreach(string code in data.commandSource) {
-			_timeline.AddLast(new LevelTimelineCommand(
+			_timeline.AddLast(new TimeCommand(
 				code.Split(spliter, StringSplitOptions.None)
 			));
 		}
 
-		foreach(LevelTimelineCommand line in _timeline) {
+		foreach(TimeCommand line in _timeline) {
 			line.print();
 		}
 
@@ -51,13 +51,16 @@ public class GameLevel{
 	}
 
 	public void update(){
-		// while (_timeline.Count > 0 && _timer.getElapsedTime() > _timeline.First.Value.time) {
-		// 	LevelTimelineCommand toExecute = _timeline.First.Value;
-		// 	// if (toExecute.type.Equals("Enemy_Out")) {
-		// 	// 	Debug.Log("Enemy_Out");
-		// 	// }
-			
-		// }
+
+
+		while (_timeline.Count > 0 && _timer.getElapsedTime() > _timeline.First.Value.time) {//解析所有已到时的计数器
+			TimeCommand command = _timeline.First.Value;
+			_timeline.RemoveFirst();
+			if (command.type.Equals("Enemy_Out")) {
+				RhodesGame.Instance.battle.actorMgr.createEnemy(command.resource);
+			}
+		}
+
 		//todo
 		//更新费用
 		//更新全局buff
@@ -79,17 +82,17 @@ public class GameLevel{
 
 
 
-public class LevelTimelineCommand{
-	public int time = 1000;
+public class TimeCommand{
+	public float time = 1000;
 	public string type = "Enemy_Out";
 	public string resource = "Neosb";
-	public LevelTimelineCommand(){}
-	public LevelTimelineCommand(int time, string type, string res){
+	public TimeCommand(){}
+	public TimeCommand(float time, string type, string res){
 		this.time = time;
 		this.type = type;
 		this.resource = res;
 	}
-	public LevelTimelineCommand(string[] codes) {
+	public TimeCommand(string[] codes) {
 		this.time = Int16.Parse(codes[0]);
 		this.type = codes[1];
 		this.resource = codes[2];

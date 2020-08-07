@@ -47,6 +47,11 @@ public class IntVec:IEquatable<IntVec>{
 		this.y = y;
 	}
 
+	public IntVec(Vector2 vec) {
+		x = (int)vec.x;
+		y = (int)vec.y;
+	}
+
 	public string toKey(){
 		return this.x + "/" + this.y;
 	}

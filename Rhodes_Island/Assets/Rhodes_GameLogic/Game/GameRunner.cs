@@ -39,8 +39,8 @@ public class GameRunner : MonoBehaviour {
 
 		// RhodesGame.Instance.battle.actorMgr.createOprt("fuck");
 		// print(JsonUtility.ToJson(new ActorData()));
-		RhodesGame.Instance.battle.actorMgr.createEnemy("Neosb");
-		RhodesGame.Instance.battle.actorMgr.createEnemy("sb");
+		// RhodesGame.Instance.battle.actorMgr.createEnemy("Neosb");
+		// RhodesGame.Instance.battle.actorMgr.createEnemy("sb");
 		RhodesGame.Instance.battle.level.init("default");
 		
 	}

@@ -21,6 +21,12 @@ public class ActorCtrl : MonoBehaviour {
 		profile.actorType = KeyMapping.ActorTypeToEnum(data.type);//设定单位类型
 		actor.GetComponent<ActorRoute>().setRoute(data.route);//设定距离
 		profile.nodeMapper.shifts = data.atkShifts;//设定攻击范围
+
+		//载入初始buff
+		// ActorBuffMgr buffmgr = actor.GetComponent<ActorBuffMgr>();
+		// foreach(string str in data.initBuffs) {
+		// 	buffmgr.addBuff(Buff.GetBuff(str, actor, actor));
+		// }
 	}
 
 	//将此actor移动至场地内

@@ -78,7 +78,9 @@ public enum EType{
 	OPERATOR_WITHDRAWD,
 	SHOW_UI_OPERTAOR,
 	ACTORBLOCK_CLICKED,
-	ADD_OPERATOR_TO_MAINUI
+	ADD_OPERATOR_TO_MAINUI,
+	SUBUI_LEFT_BUTTON_CLICKED,
+	SUBUI_RIGHT_BUTTON_CLICKED
 }
 
 public interface DodEvent{
@@ -196,5 +198,23 @@ public class RM_ShowUIOperator : DodEvent{
 
 	public RM_ShowUIOperator(string operatorName){
 		name = operatorName;
+	}
+}
+
+public class RM_SubUILeftButtonClicked : DodEvent{
+	public EType GetEType(){return EType.SUBUI_LEFT_BUTTON_CLICKED;}
+	string operatorName;
+
+	public RM_SubUILeftButtonClicked(string name){
+		operatorName = name;
+	}
+}
+
+public class RM_SubUIRightButtonClicked : DodEvent{
+	public EType GetEType(){return EType.SUBUI_RIGHT_BUTTON_CLICKED;}
+	string operatorName;
+
+	public RM_SubUIRightButtonClicked(string name){
+		operatorName = name;
 	}
 }
